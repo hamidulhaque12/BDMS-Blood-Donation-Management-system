@@ -27,11 +27,14 @@ Route::get('/events', function () {
 
 
 Route::prefix('dashboard')->group(function () {
+    Route::get('/donor-req', function () {
+        return view('backend/donor-requests');
+    })->name('donor-request');
+   
     Route::get('/', function () {
         return view('backend/dashboard');
     })->name('dashboard');
    
-
 
     Route::resource('events', EventController::class);
     

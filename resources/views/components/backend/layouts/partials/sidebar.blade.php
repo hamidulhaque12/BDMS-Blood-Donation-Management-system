@@ -19,7 +19,7 @@
                 </a>
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="">Donors Requests</a>
+                        <a class="nav-link" href="{{route('donor-request')}}">Donors Requests</a>
                         <a class="nav-link" href="">All donors</a>
                         <a class="nav-link" href="">Active Donors</a>
                     </nav>
