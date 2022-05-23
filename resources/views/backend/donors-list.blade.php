@@ -21,11 +21,13 @@
                             <th>BL Group</th>
                             <th>Gender</th>
                             <th>DOB</th>
-                            <th>Requested at</th>
+                            <th>Division</th>
+                            <th>Thana</th>
+                            <th>Post code</th>
+                            <th>Joined at</th>
                             <th>Action</th>
-                        </tr>
+                        </tr> 
                     </thead>
-            
                     <tbody>
                         <tr>
                             <td>Tiger Nixon</td>
