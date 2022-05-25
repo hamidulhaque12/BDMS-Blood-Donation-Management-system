@@ -59,15 +59,15 @@
                 <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('events.create')}}">
                             Add a event
                         </a>
 
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('events.index')}}">
                             Event list
                         </a>
 
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('events.trash')}}">
                             Event trash
                         </a>
 
@@ -99,7 +99,7 @@
 
                     </nav>
                 </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages4"
+                <a class="nav-link collapsed" href="" data-bs-toggle="collapse" data-bs-target="#collapsePages4"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Events
@@ -108,7 +108,7 @@
                 <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="">
                             Add a event
                         </a>
 
@@ -118,11 +118,7 @@
 
                     </nav>
                 </div>
-                <div class="sb-sidenav-menu-heading">Uploads</div>
-                <a class="nav-link" href="{{ route('events.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Events
-                </a>
+                
             </div>
         </div>
         <div class="sb-sidenav-footer">

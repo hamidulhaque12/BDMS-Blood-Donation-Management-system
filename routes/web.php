@@ -26,6 +26,7 @@ Route::prefix('/')->group(function () {
         Route::get('/', 'index')->name('welcome');;
         Route::get('/events', 'events')->name('events');
     });
+
 });
 
 
@@ -43,7 +44,7 @@ Route::prefix('dashboard')->group(function () {
         return view('backend/dashboard');
     })->name('dashboard');
    
-
+    Route::get('/events-trash',[EventController::class,'trash'])->name('events.trash');
     Route::resource('events', EventController::class);
     
     

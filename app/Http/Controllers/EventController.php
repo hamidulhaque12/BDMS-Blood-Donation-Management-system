@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Artisan;
 use Image;
 
 class EventController extends Controller
@@ -44,6 +45,7 @@ class EventController extends Controller
         $requestData = $request->all();
         try {
             if ($request->hasFile('image')) {
+                Artisan::call('storage:link',[] );
                 $file = $request->image;
                 $path = "/app/public/events/";
                 $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -105,5 +107,10 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+
+    public function trash(){
+        return view('backend/events-trash');
     }
 }
