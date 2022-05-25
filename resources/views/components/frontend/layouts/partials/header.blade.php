@@ -5,40 +5,39 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-        <div class="navbar-nav">
-            <a href="#" class="nav-item nav-link active">Home</a>
-            <a href="#" class="nav-item nav-link">Gallery</a>
-            <a href="#" class="nav-item nav-link">Events</a>
-            <a href="#" class="nav-item nav-link">Health tips</a>
-            <a href="#" class="nav-item nav-link">Blood Request</a>
-            <a href="#" class="nav-item nav-link">Search Donors</a>
-            <div class="dropdown">
-                <a class="nav-item nav-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+        <div class="navbar-nav d-flex w-100 justify-content-between ">
+
+            <div class="d-flex">
+                <a href="{{route('welcome')}}" class="nav-item nav-link">Home</a>
+                <a href="{{ route('events') }}" class="nav-item nav-link">Events</a>
+                <a href="#" class="nav-item nav-link">Blood Request</a>
+                <a href="#" class="nav-item nav-link">About Us</a>
+                <a href="#" class="nav-item nav-link">Contact Us</a>
+            </div>
+
+
+            <div class="d-flex ">
+                <a class="nav-item nav-link" href="{{ route('login') }}" role="button" aria-expanded="false">
                     Login
                 </a>
-
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Donor</a></li>
-                    <li><a class="dropdown-item" href="#">Organization</a></li>
-                    <hr>
-                    <li><a class="dropdown-item" href="#">Administrator</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <a class="nav-item nav-link" href="#" role="hover" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Sign Up!
+                <a class="nav-item nav-link" href="#" aria-expanded="false">
+                    Donor Sign Up!
                 </a>
 
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Donor</a></li>
-                    <li><a class="dropdown-item" href="#">Organization</a></li>
-                </ul>
-            </div>
-            <div class="nav-iteam d-flex">
-                <a href="#" class="nav-item nav-link d-flex">About Us</a>
-                <a href="#" class="nav-item nav-link float-left">Contact us</a>
+                <a class="nav-item nav-link" href="{{route('dashboard')}}" role="button" aria-expanded="false">
+                    Dashboard
+                </a>
+
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <a  class="nav-item nav-link" href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                </a>
+                </form>
             </div>
 
 

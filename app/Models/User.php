@@ -11,7 +11,9 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    const SUPER_ADMIN_ROLE_ID = 1;
+    const ADMIN_ROLE_ID = 2;
+    const DONOR_ROLE_ID = 3;
     /**
      * The attributes that are mass assignable.
      *
@@ -21,8 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,4 +44,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+   
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function isSuperAdmin()
+    {
+        return $this->role_id === self::SUPER_ADMIN_ROLE_ID;
+    }
+
+    public function isAdmin()
+    {
+        return $this->role_id === self::ADMIN_ROLE_ID;
+    }
+
+    public function isDonor()
+    {
+        return $this->role_id === self::DONOR_ROLE_ID;
+    }
+
+
+
 }

@@ -35,12 +35,14 @@
                             <td>2011/04/25</td>
                             <td class="d-flex"> 
                                 
-                                <a href="" class="btn btn-info btn-sm" style="color: white" ><i class="fa-solid fa-eye"></i></a> 
+                                <a href="" title="view" data-toggle="tooltip" data-placement="top" class="btn btn-info btn-sm" style="color: white" ><i class="fa-solid fa-eye"></i></a> 
                                 
                                 
                                 
-                                <a href="" class="btn btn-success btn-sm" style="margin-left: 3px" ><i class="fas fa-check"></i></a> 
-                                    <button type="submit" class="btn btn-danger btn-sm" style="margin-left: 3px"><i class="fas fa-ban"></i></button>
+                                <a href="" title="approve" class="btn btn-success btn-sm" style="margin-left: 3px" ><i class="fas fa-check"></i></a> 
+
+                                <form action="">
+                                    <button title="delete" type="submit" class="btn btn-danger btn-sm" style="margin-left: 3px"><i class="fas fa-ban"></i></button>
                                 </form> </td>
                         </tr>
                      

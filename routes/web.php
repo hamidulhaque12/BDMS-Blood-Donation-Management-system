@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,14 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-Route::get('/events', function () {
-    return view('events');
-})->name('events');
 
 
+Route::prefix('/')->group(function () {
+    
+    
+    Route::controller(  FrontendController::class)->group(function () {
+        Route::get('/', 'index')->name('welcome');;
+        Route::get('/events', 'events')->name('events');
+    });
+});
 
 
 
@@ -30,6 +34,10 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/donor-req', function () {
         return view('backend/donor-requests');
     })->name('donor-request');
+    Route::get('/active-donor',[DonorController::class,'activeDonors'])->name('active-donor');
+    
+   
+    Route::resource('donor',DonorController::class);
    
     Route::get('/', function () {
         return view('backend/dashboard');
@@ -52,4 +60,4 @@ Route::prefix('dashboard')->group(function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
