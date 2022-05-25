@@ -45,10 +45,11 @@
                         <td>{{$event->approved_by}}</td>
                       
                         <td class="d-flex">
-                            <a href="" role="button" class="btn btn-primary btn-sm">Show</a>
+                            <a href="{{route('events.show',$event->id)}}" role="button" class="btn btn-primary btn-sm">Show</a>
                             <a href="" role="button" class="btn btn-info btn-sm">Edit</a>
-                           <form action="">
+                           <form action="{{route('events.destroy',$event->id)}}">
                             @csrf
+                            
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
 
                            </form>

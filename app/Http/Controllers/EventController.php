@@ -8,6 +8,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Image;
 
 class EventController extends Controller
@@ -29,6 +30,11 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+
+
     public function create()
     {
         return view('backend/events-create');
@@ -40,6 +46,10 @@ class EventController extends Controller
      * @param  \App\Http\Requests\StoreEventRequest  $request
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function store(EventRequest $request)
     {
         $requestData = $request->all();
@@ -50,7 +60,6 @@ class EventController extends Controller
                 $path = "/app/public/events/";
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 Image::make($file)->resize(300, 200)->save(storage_path() . $path . $filename);
-                
                 $requestData['image'] = $filename;
             }
 
@@ -70,9 +79,13 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+
+
+    public function show($id)
     {
-        //
+        $status=null;
+        $events = Event::where('status',$status)->where('id',$id)->first();
+        return view('backend/event-show',compact('event'));
     }
 
     /**
@@ -81,6 +94,8 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
+
+
     public function edit(Event $event)
     {
         //
@@ -93,9 +108,32 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
+
+
     public function update(EventRequest $request, Event $event)
     {
-        //
+        try {
+
+            $requestData = $request->all();
+            $requestData['updated_by']=Auth::user()->id;
+            if ($request->hasFile('image')) {
+
+                $file = $request->image;
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                Image::make($file)->resize(300, 200)->save(storage_path() . '/app/public/events/' . $filename);
+                $requestData['image'] = $filename;
+            } else {
+                $requestData['image'] = $event->image;
+            }
+         
+            $event->update($requestData);
+            // $event = event::findOrFail($id);
+            // $event->update($request->all());
+            return redirect()->route('events.index')->with('message', 'Successfully Upadated!');
+        } catch (QueryException $e) {
+            return redirect()->back()->withInput()->withErrors($e->getMessage());
+        }
+
     }
 
     /**
@@ -104,9 +142,18 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
+
+
     public function destroy(Event $event)
     {
-        //
+        // $this->authorize('events-delete', $event);
+        // $event= Event::findOrFail($id);
+        $event->update(['deleted_by'=>auth()->id()]);
+
+        $event->delete();
+
+        return redirect()->back()->withMessage('Successfully Deleted !');
+
     }
 
 

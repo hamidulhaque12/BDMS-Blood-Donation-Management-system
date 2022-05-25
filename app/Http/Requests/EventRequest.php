@@ -19,7 +19,10 @@ class EventRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    { $imageValidateRules = 'mimes:jpg,png|min:5|max:2048';
+
+    { 
+        
+        $imageValidateRules = 'mimes:jpg,png|min:5|max:2048';
         if($this->isMethod('post')){
             $imageValidateRules = 'required|mimes:jpg,png|min:5|max:2048';
         }
