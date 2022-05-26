@@ -20,7 +20,7 @@
                 <a class="nav-item nav-link" href="{{ route('login') }}" role="button" aria-expanded="false">
                     Login
                 </a>
-                <a class="nav-item nav-link" href="#" aria-expanded="false">
+                <a class="nav-item nav-link" href="{{route('register')}}" aria-expanded="false">
                     Donor Sign Up!
                 </a>
 
