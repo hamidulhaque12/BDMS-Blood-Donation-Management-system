@@ -17,8 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->unsignedBigInteger('nid_number')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('role_id')->nullable();
+            $table->text('blood_group');
+            $table->unsignedBigInteger('approval_status')->nullable();
+            $table->unsignedBigInteger('appoved_by')->nullable();            
             $table->rememberToken();
             $table->timestamps();
         });

@@ -24,6 +24,10 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'blood_group',
+        'appoved_by',
+        'appoval_status',
+        'nid_number',
     ];
     
     /**
@@ -49,6 +53,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+    
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
     public function isSuperAdmin()
     {

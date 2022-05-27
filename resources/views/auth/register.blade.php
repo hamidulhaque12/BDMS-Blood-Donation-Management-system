@@ -69,22 +69,33 @@
                 <div class="card-title text-center">
                     <legend class="fw-bold">Sign Up!</legend>
                 </div>
-                <form action="{{route('register')}}" method="POST" >
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <span class="fw-light text-decoration-underline m-2">Personal Information:</span>
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" value="{{ old('name') }}" class="form-control" id="name" name="name"
+                            required>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="father">Fathers' Name: <span class="lead fs-6">(optional)</span></label>
-                            <input type="email" class="form-control" id="father" name="father_name">
+                            <input type="text" value="{{ old('father') }}"  class="form-control" id="father"
+                                name="father">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="mother">Mothers' Name:<span class="lead fs-6">(optional)</span></label>
-                            <input type="password" class="form-control" id="mother">
+                            <input type="text" value="{{ old('mother') }}" name="mother" class="form-control" id="mother">
                         </div>
                     </div>
 
@@ -92,7 +103,8 @@
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label for="dob">Date of birth:</label>
-                            <input type="date" class="form-control" name="dob" id="dob" required>
+                            <input type="date" value="{{ old('dob') }}" class="form-control" name="dob" id="dob"
+                                required>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="gender">Gender</label>
@@ -105,7 +117,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label for="bl">Blood Group</label>
-                            <select id="bl" class="form-control" name="blood_group">
+                            <select id="bl" class="form-control" name="blood_group" required>
                                 <option selected>Select one..</option>
                                 <option value="O+">O+</option>
                                 <option value="O-">O-</option>
@@ -119,7 +131,8 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label for="nid">NID Number:</label>
-                            <input type="number" class="form-control" name="nid" id="nid" required>
+                            <input required type="number" value="{{ old('nid_number') }}" class="form-control"
+                                name="nid_number" id="nid" required>
                         </div>
 
                     </div>
@@ -135,31 +148,31 @@
                         <div class="form-group col-md-4 col-sm-6 ">
                             <label for="district">Choose a District:</label>
 
-                            <select name="district" class="form-control" id="district">
-                                <option value=""></option>
+                            <select name="district" class="form-control" id="district" required>
+
                             </select>
                         </div>
 
                         <div class="form-group col-md-4 col-sm-6">
                             <label for="thana">Choose a Thana:</label>
 
-                            <select name="thana" class="form-control" id="thana">
-                                <option value=""></option>
+                            <select name="thana" class="form-control" id="thana" required>
+
                             </select>
                         </div>
 
                         <div class="form-group col-md-4 col-sm-6">
                             <label for="postOffice">Post office:</label>
 
-                            <select name="postOffice" class="form-control" id="postOffice">
-                                <option value=""></option>
+                            <select name="postOffice" class="form-control" id="postOffice" required>
+
                             </select>
                         </div>
                         <div class="form-group col-md-4 col-sm-6">
                             <label for="postCode">Post code:</label>
 
                             <select name="postCode" class="form-control" id="postCode">
-                                <option value=""></option>
+
                             </select>
                         </div>
                     </div>
@@ -167,7 +180,8 @@
                     <span class="fw-light text-decoration-underline m-2"></span>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control" id="email" value="{{ old('email') }}" name="email"
+                            required>
                     </div>
 
                     <div class="row">
@@ -178,29 +192,32 @@
                         <div class="form-group col-md-6">
                             <label for="confirmPassword">Confirm Password:</label>
                             <input type="password" class="form-control" name="password_confirmation"
-                                id="confirmPassword">
+                                id="confirmPassword" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="profile_image" class="form-label">Profile Image:</label>
-                            <input class="form-control" type="file" id="profile_image">
+                            <input class="form-control" type="file" id="profile_image"
+                                value="{{ old('profile_image') }}" name="profile_image" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="nid_image" class="form-label">Nid image</label>
-                            <input class="form-control" type="file" id="nid_image">
+                            <input class="form-control" type="file" name="nid_image" id="nid_image" value="{{ old('nid_image') }}"
+                                required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
                             <div class="form-check justify-content-center">
-                                <input class="form-check-input" checked type="checkbox" value="" id="invalidCheck2" required>
-                                  <label class="form-check-label" for="invalidCheck2">
-                                   I Agree to <a href="">terms and conditions</a> 
+                                <input class="form-check-input" name="terms" checked type="checkbox" value="agree"
+                                    id="invalidCheck2" required>
+                                <label class="form-check-label" for="invalidCheck2">
+                                    I Agree to <a href="">terms and conditions</a>
                                 </label>
-                              </div>
+                            </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="row">
