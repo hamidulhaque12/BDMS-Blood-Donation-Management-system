@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Image;
+use Alert;
 
 class RegisteredUserController extends Controller
 {
@@ -96,7 +97,12 @@ class RegisteredUserController extends Controller
         'postCode' => $request->postCode,
         'profile_image' => $requestData['profile_image'],
         'nid_image' => $requestData['nid_image'],
-    ]);
-
+    ]);  
+    // if ($user) {
+    //     Alert::success('Submitted', 'Your donor signup request is waiting for approval');
+    //     return back();
+    // }
+    return redirect()->back()->withMessage('Your signup request is submitted! We will mail you soon');
+      
     }
 }

@@ -69,6 +69,13 @@
                 <div class="card-title text-center">
                     <legend class="fw-bold">Sign Up!</legend>
                 </div>
+
+
+                @if (session('message'))
+                    <p class="alert alert-success">{{ session('message') }}</p>
+                @endif
+
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -90,12 +97,13 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="father">Fathers' Name: <span class="lead fs-6">(optional)</span></label>
-                            <input type="text" value="{{ old('father') }}"  class="form-control" id="father"
+                            <input type="text" value="{{ old('father') }}" class="form-control" id="father"
                                 name="father">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="mother">Mothers' Name:<span class="lead fs-6">(optional)</span></label>
-                            <input type="text" value="{{ old('mother') }}" name="mother" class="form-control" id="mother">
+                            <input type="text" value="{{ old('mother') }}" name="mother" class="form-control"
+                                id="mother">
                         </div>
                     </div>
 
@@ -203,8 +211,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="nid_image" class="form-label">Nid image</label>
-                            <input class="form-control" type="file" name="nid_image" id="nid_image" value="{{ old('nid_image') }}"
-                                required>
+                            <input class="form-control" type="file" name="nid_image" id="nid_image"
+                                value="{{ old('nid_image') }}" required>
                         </div>
                     </div>
                     <div class="row">

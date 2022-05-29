@@ -31,7 +31,7 @@ Route::prefix('/')->group(function () {
 
 
 
-Route::prefix('dashboard')->group(function () {
+Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::get('/donor-req', function () {
         return view('backend/donor-requests');
     })->name('donor-request');
@@ -47,7 +47,7 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/events-trash',[EventController::class,'trash'])->name('events.trash');
     Route::resource('events', EventController::class);
     
-    
+  
 });
 
 

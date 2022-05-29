@@ -182,6 +182,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        // UxWeb\SweetAlert\SweetAlertServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -210,7 +211,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        // 'Alert' => UxWeb\SweetAlert\SweetAlert::class,
 
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
