@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BloodRequest;
 use App\Http\Requests\StoreBloodRequestRequest;
 use App\Http\Requests\UpdateBloodRequestRequest;
+use Illuminate\Support\Facades\Auth;
 
 class BloodRequestController extends Controller
 {
@@ -15,7 +16,34 @@ class BloodRequestController extends Controller
      */
     public function index()
     {
-        //
+        $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('rejected_by')->latest()->get();
+        return view('backend/blood/not-approved',compact('bloodRequests'));
+    }
+
+    public function approve($id)
+    {
+        $bloodRequest = BloodRequest::findOrFail($id);
+        // $bloodRequest['approved_by'] = auth()->user()->id;
+        $bloodRequest->update([
+            'approved_by' => Auth::id()
+        ]);
+        return redirect()->back()->withMessage('Successfully Approved!');
+    }
+    public function reject($id)
+    {
+        $bloodRequest = BloodRequest::findOrFail($id);
+        // $bloodRequest['approved_by'] = auth()->user()->id;
+        $bloodRequest->update([            
+            'rejected_by' => Auth::id()
+        ]);
+        return redirect()->back()->withMessage('Rejected!');
+    }
+
+
+    public function allRequests()
+    {
+        $bloodRequests = BloodRequest::whereNotNull('approved_by')->whereNotNull('rejected_by')->latest()->get();
+        return view('backend/blood/all',compact('bloodRequests'));
     }
 
     /**
@@ -25,7 +53,7 @@ class BloodRequestController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -47,7 +75,7 @@ class BloodRequestController extends Controller
      */
     public function show(BloodRequest $bloodRequest)
     {
-        //
+        return view('backend/blood/view',compact('bloodRequest'));
     }
 
     /**

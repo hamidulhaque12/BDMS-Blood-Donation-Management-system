@@ -39,11 +39,11 @@
                             Blood container
                         </a>
 
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('request.notApproved')}}">
                             Not approved requests
                         </a>
 
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('blood-request-all')}}">
                             Approved BL Requests
                         </a>
 

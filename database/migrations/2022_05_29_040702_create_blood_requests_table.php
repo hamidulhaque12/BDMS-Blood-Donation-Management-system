@@ -17,7 +17,8 @@ return new class extends Migration
 
             $table->id();
             $table->unsignedBigInteger('request_no');
-
+            $table->unsignedBigInteger('rejected_by')->nullable();
+            $table->foreign('rejected_by')->references('id')->on('users');
             $table->text('patient_name');
             $table->string('gender');
             $table->string('blood_group');
@@ -43,6 +44,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('approved_by')->references('id')->on('users');
             $table->foreign('donor_id')->references('id')->on('users');
+
+            $table->softDeletes();
 
         });
     }

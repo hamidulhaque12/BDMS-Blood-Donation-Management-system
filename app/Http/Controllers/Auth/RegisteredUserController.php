@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
             Image::make($request->file('profile_image'))
             ->resize(300, 200)
             ->save(storage_path() . '/app/public/users/profile/' . $profile_image_Name);
-
+            
             Image::make($request->file('nid_image'))
                 ->resize(300, 200)
                 ->save(storage_path() . '/app/public/users/nid/' . $nid_image_Name);
