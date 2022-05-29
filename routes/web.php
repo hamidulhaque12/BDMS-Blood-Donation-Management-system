@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
+use App\Models\BloodRequest;
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +28,13 @@ Route::prefix('/')->group(function () {
     Route::controller(  FrontendController::class)->group(function () {
         Route::get('/', 'index')->name('welcome');;
         Route::get('/events', 'events')->name('events');
+      
     });
+    Route::get('/blood-req',[FrontendController::class,'bloodRequestCreate'])->name('bloodreq-user');
+    Route::post('/blood-req',[FrontendController::class,'bloodRequestStore'])->name('bloodreq-user-store');
+
+
+
 
 });
 
@@ -46,9 +55,11 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
    
     Route::get('/events-trash',[EventController::class,'trash'])->name('events.trash');
     Route::resource('events', EventController::class);
+
     
   
 });
+
 
 
 

@@ -144,8 +144,8 @@
                         </div>
 
                     </div>
-                    <div class="row ">
-                        <span class="fw-light text-decoration-underline m-2">Present Address:</span>
+                    <span class="fw-light text-decoration-underline m-2">Present Address:</span>
+                    <div class="row">
                         <div class="form-group col-md-4 col-sm-6">
                             <label for="division">Choose a Division:</label>
                             <select name="division" id="division" class="form-control" required>

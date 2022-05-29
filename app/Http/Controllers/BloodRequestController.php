@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Return_;
+use App\Models\BloodRequest;
+use App\Http\Requests\StoreBloodRequestRequest;
+use App\Http\Requests\UpdateBloodRequestRequest;
 
-class DonorController extends Controller
+class BloodRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class DonorController extends Controller
      */
     public function index()
     {
-        return view('backend/donors-list');
+        //
     }
 
     /**
@@ -30,21 +31,21 @@ class DonorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreBloodRequestRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBloodRequestRequest $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\BloodRequest  $bloodRequest
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BloodRequest $bloodRequest)
     {
         //
     }
@@ -52,10 +53,10 @@ class DonorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\BloodRequest  $bloodRequest
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BloodRequest $bloodRequest)
     {
         //
     }
@@ -63,11 +64,11 @@ class DonorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateBloodRequestRequest  $request
+     * @param  \App\Models\BloodRequest  $bloodRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBloodRequestRequest $request, BloodRequest $bloodRequest)
     {
         //
     }
@@ -75,16 +76,11 @@ class DonorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\BloodRequest  $bloodRequest
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BloodRequest $bloodRequest)
     {
         //
-    }
-
-    public function activeDonors()
-    {
-        return view('backend/active-donors');
     }
 }

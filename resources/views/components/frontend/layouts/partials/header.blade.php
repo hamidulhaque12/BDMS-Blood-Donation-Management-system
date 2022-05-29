@@ -10,7 +10,7 @@
             <div class="d-flex">
                 <a href="{{route('welcome')}}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('events') }}" class="nav-item nav-link">Events</a>
-                <a href="#" class="nav-item nav-link">Blood Request</a>
+                <a href="{{route('bloodreq-user')}}" class="nav-item nav-link">Blood Request</a>
                 <a href="#" class="nav-item nav-link">About Us</a>
                 <a href="#" class="nav-item nav-link">Contact Us</a>
             </div>
