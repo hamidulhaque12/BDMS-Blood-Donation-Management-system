@@ -20,9 +20,10 @@ class BloodRequestController extends Controller
      */
 
     public function index()
-    {
-        $usersBloodRequests = Auth::user()->bloodRequests->wherePivotNull('status')->count();
-        return view('backend/dashboard',compact('usersBloodRequests'));
+    {        $ongoing = Auth::user()->bloodRequests()->wherePivot('status',1)->first()->get();
+
+        $usersBloodRequests = Auth::user()->bloodRequests()->wherePivotNull('status')->count();
+        return view('backend/dashboard',compact('usersBloodRequests','ongoing'));
     }
     public function pending()
     {

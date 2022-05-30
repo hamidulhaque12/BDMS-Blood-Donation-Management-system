@@ -30,6 +30,13 @@ Route::prefix('/')->group(function () {
         Route::get('/', 'index')->name('welcome');;
         Route::get('/events', 'events')->name('events');
     });
+    Route::get('/about-us', function () {
+    return view('about');
+})->name('about');
+Route::get('/contact-us', function () {
+    return view('contact');
+})->name('contact');
+
     Route::get('/blood-req', [FrontendController::class, 'bloodRequestCreate'])->name('bloodreq-user');
     Route::post('/blood-req', [FrontendController::class, 'bloodRequestStore'])->name('bloodreq-user-store');
 });

@@ -11,6 +11,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Website
                 </a>
+
+                @if (Auth::user()->isAdmin()||Auth::user()->isSuperAdmin())
+                    
+               
                 <div class="sb-sidenav-menu-heading">Manage</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                     aria-expanded="false" aria-controls="collapseLayouts">
@@ -26,6 +30,7 @@
                         <a class="nav-link" href="{{ route('active-donor') }}">Active Donors</a>
                     </nav>
                 </div>
+
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -50,6 +55,7 @@
 
                     </nav>
                 </div>
+                
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -74,6 +80,7 @@
 
                     </nav>
                 </div>
+                @endif
                 <div class="sb-sidenav-menu-heading">Your Activities</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2"
                     aria-expanded="false" aria-controls="collapsePages">
@@ -84,7 +91,7 @@
                 <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('donor-blood-reqs')}}">
                             Requests
                         </a>
 

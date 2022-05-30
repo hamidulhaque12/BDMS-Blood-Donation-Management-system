@@ -43,7 +43,7 @@ class BloodRequest extends Model
 
     public function donors()
     {
-       return $this->belongsToMany(User::class)->withTimestamps();  
+       return $this->belongsToMany(User::class)->withTimestamps();
     }
     
 }

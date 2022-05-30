@@ -16,8 +16,8 @@ class DonorController extends Controller
      */
     public function index()
     {
-        $pendingRequests= Auth::user()->bloodRequests()->wherePivotNull('status')->orWherePivotNull('status',1)->orWherePivotNull('status',2)->get();
-        // dd($pendingRequests);
+        
+        $pendingRequests= Auth::user()->bloodRequests()->wherePivot('status', 1)->orWherePivot('status', 2)->orWherePivotNull('status')->get();
         return view('backend.donor.pending-blood-requests', compact('pendingRequests'));
     }
 
@@ -26,7 +26,6 @@ class DonorController extends Controller
         // status 0 is declined
         // status 1 is accepted
         // status2 is donated
-
         $donor_id = Auth::id();
 
         //accepted

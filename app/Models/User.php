@@ -76,8 +76,10 @@ class User extends Authenticatable
 
     public function bloodRequests()
     {
-        return $this->belongsToMany(BloodRequest::class);
+        return $this->belongsToMany(BloodRequest::class)->withPivot(['status'])->withTimestamps();
     }
+
+   
 
 
 

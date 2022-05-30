@@ -11,19 +11,13 @@
                 <a href="{{route('welcome')}}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('events') }}" class="nav-item nav-link">Events</a>
                 <a href="{{route('bloodreq-user')}}" class="nav-item nav-link">Blood Request</a>
-                <a href="#" class="nav-item nav-link">About Us</a>
-                <a href="#" class="nav-item nav-link">Contact Us</a>
+                <a href="{{route('about')}}" class="nav-item nav-link">About Us</a>
+                <a href="{{route('contact')}}" class="nav-item nav-link">Contact Us</a>
             </div>
 
 
             <div class="d-flex ">
-                <a class="nav-item nav-link" href="{{ route('login') }}" role="button" aria-expanded="false">
-                    Login
-                </a>
-                <a class="nav-item nav-link" href="{{route('register')}}" aria-expanded="false">
-                    Donor Sign Up!
-                </a>
-
+                @auth
                 <a class="nav-item nav-link" href="{{route('dashboard')}}" role="button" aria-expanded="false">
                     Dashboard
                 </a>
@@ -38,6 +32,19 @@
                         {{ __('Log Out') }}
                 </a>
                 </form>
+
+                @else
+                <a class="nav-item nav-link" href="{{ route('login') }}" role="button" aria-expanded="false">
+                    Login
+                </a>
+                <a class="nav-item nav-link" href="{{route('register')}}" aria-expanded="false">
+                    Donor Sign Up!
+                </a>
+
+
+                @endauth
+                
+               
             </div>
 
 

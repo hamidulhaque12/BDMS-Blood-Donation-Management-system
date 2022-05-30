@@ -55,15 +55,15 @@
                                 
                                 <a href="" title="view" class="btn btn-info btn-sm">View</a> 
                                 
-                                @if ($request->status == null)
+                                @if ($request->pivot->status == null)
                                     <a href="{{route('donor-req-accept',$request->id)}}" title="take" class="btn btn-success btn-sm">Accept</a>
                                 
-                                @elseif($request->status == 1)
+                                @elseif($request->pivot->status == 1)
                                    <mark> Ongoing </mark>
                                 
                                     
-                                @elseif($request->status == 2)
-                                    <mark> Donated </mark>
+                                @elseif($request->pivot->status == 2)
+                                    <mark class="bg-success" > Donated </mark>
                                 
                                 @endif
                                
