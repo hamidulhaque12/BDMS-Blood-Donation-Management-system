@@ -5,6 +5,7 @@ use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
 use App\Models\BloodRequest;
+use App\Models\User;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 
@@ -36,16 +37,22 @@ Route::prefix('/')->group(function () {
 
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
-
+   
 
     Route::get('/donor-req', function () {
         return view('backend/donor-requests');
     })->name('donor-request');
     Route::get('/active-donor', [DonorController::class, 'activeDonors'])->name('active-donor');
 
-    Route::controller(BloodRequestController::class)->group(function () {
+    Route::controller(DonorController::class)->prefix('/donor/blood')->group(function () {
+      Route::get('/requests','index')->name('donor-blood-reqs');
+      Route::get('/requests/{id}/accept','accept')->name('donor-req-accept');
 
-        Route::get('/blood-req/not-approved', 'index')->name('request.notApproved');
+    });
+
+    Route::controller(BloodRequestController::class)->group(function () {
+        Route::get('/','index')->name('dashboard');
+        Route::get('/blood-req/not-approved', 'pending')->name('request.notApproved');
         Route::get('/blood-req/approve/{id}', 'approve')->name('blood-approve');
         Route::get('/blood-req/reject/{id}', 'reject')->name('blood-reject');
         Route::get('/blood-req/assign/{bloodRequest}','assignIndex')->name('request-assign');
@@ -59,9 +66,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::resource('donor', DonorController::class);
 
-    Route::get('/', function () {
-        return view('backend/dashboard');
-    })->name('dashboard');
+   
 
     Route::get('/events-trash', [EventController::class, 'trash'])->name('events.trash');
     Route::resource('events', EventController::class);

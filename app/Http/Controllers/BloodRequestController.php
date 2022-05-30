@@ -18,11 +18,18 @@ class BloodRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('rejected_by')->latest()->get();
+        $usersBloodRequests = Auth::user()->bloodRequests->wherePivotNull('status')->count();
+        return view('backend/dashboard',compact('usersBloodRequests'));
+    }
+    public function pending()
+    {
+        $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('rejected_by')->latest()->get();
         return view('backend/blood/not-approved', compact('bloodRequests'));
     }
+  
 
     public function approve($id)
     {
@@ -66,11 +73,17 @@ class BloodRequestController extends Controller
 
         return view('backend.blood.assign-index', compact('donors', 'bloodRequest'));
     }
+
+
     public function assignDonor(Request $request, BloodRequest $bloodRequest)
     {
         // dd($request);
         // $bloodRequest->donor()->attach( $request->donor_ids);
          $bloodRequest->donors()->attach($request->donor_ids);
+         $bloodRequest->update([
+            'status' => 1
+        ]);
+        return redirect()->back()->withMessage('Successfully Assigned!');         
     }
 
     /**

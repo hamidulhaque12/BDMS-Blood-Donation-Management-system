@@ -1,7 +1,7 @@
 <x-backend.layouts.master>
 
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Not Approved</h1>
+        <h1 class="mt-4">All Blood Requests</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">
                 Dashboard
@@ -36,6 +36,7 @@
                             <th>Request No</th>
                             <th>Requested at</th>
                             <th>Approved by</th>
+                            <th>Status</th>
                             <th>Action</th>
                             
                         </tr>
@@ -53,9 +54,27 @@
                                 <td>{{ $request->request_no }}</td>
                                 <td>{{ $request->created_at->diffForHumans()}}</td>
                                 <td>{{$request->approvedBy->name}}</td>
+                                <td>
+                                    @if ($request->status == Null)
+                                        <span class="btn btn-info btn-sm">Pending</span>
+                                    @elseif($request->status == 1)
+                                        <span class="btn btn-warning btn-sm">Assigned</span>
+                                    @elseif($request->status == 2)
+                                        <span class="btn btn-sm" style="background-color: cadetblue">Taken</span>
+                                    @elseif($request->status == 3)
+                                        <span class="btn btn-sm" style="background-color: rgb(4, 154, 7)">Donated</span>
+                                        @elseif($request->status == 4)
+                                        <span class="btn btn-sm" style="background-color:fuchsia">Cancelled</span>
+                                    @endif
+
+
+                                </td>
                                 <td >
+                                    @if ($request->status == Null)
+                                   
                                     <a href="{{route('request-assign', $request->id) }}" title="assign"
                                         class="btn btn-warning  w-100 " >Assign</a>
+                                    @endif
 
                                     <div class="d-flex">
                                         <a href="{{route('blood-view', $request->id) }}" title="view"

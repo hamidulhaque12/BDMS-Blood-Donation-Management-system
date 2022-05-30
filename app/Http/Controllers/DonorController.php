@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Return_;
 
 class DonorController extends Controller
@@ -14,7 +16,35 @@ class DonorController extends Controller
      */
     public function index()
     {
-        return view('backend/donors-list');
+        $pendingRequests= Auth::user()->bloodRequests()->wherePivotNull('status')->orWherePivotNull('status',1)->orWherePivotNull('status',2)->get();
+        // dd($pendingRequests);
+        return view('backend.donor.pending-blood-requests', compact('pendingRequests'));
+    }
+
+    public function accept($id)
+    {
+        // status 0 is declined
+        // status 1 is accepted
+        // status2 is donated
+
+        $donor_id = Auth::id();
+
+        //accepted
+        DB::table('blood_request_user')->where('user_id', $donor_id)->where('blood_request_id',$id)->update(
+            ['status' => 1]
+        );
+
+        //others are declined
+        $others = DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->first();
+        if($others){
+            DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->update(
+                ['status' => 0]
+            );
+        }
+
+        return redirect()->back()->withMessage('Blood request accepted!');
+
+
     }
 
     /**

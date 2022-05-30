@@ -18,9 +18,8 @@ return new class extends Migration
             $table-> unsignedBigInteger('blood_request_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status')->nullable();
-            $table->foreign('bloodrequest_id')->references('id')->on('blood_requests');
+            $table->foreign('blood_request_id')->references('id')->on('blood_requests');
             $table->foreign('user_id')->references('id')->on('users');
-
             $table->timestamps();
         }); 
     }
