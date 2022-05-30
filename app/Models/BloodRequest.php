@@ -41,4 +41,9 @@ class BloodRequest extends Model
         return $this->belongsTo(User::class, 'approved_by');
     }
 
+    public function donors()
+    {
+       return $this->belongsToMany(User::class)->withTimestamps();  
+    }
+    
 }

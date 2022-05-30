@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->role_id === self::DONOR_ROLE_ID;
     }
 
+    public function bloodRequest()
+    {
+        $this->belongsToMany(BloodRequest::class);
+    }
+
 
 
 }

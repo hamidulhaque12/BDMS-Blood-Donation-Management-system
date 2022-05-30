@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\BloodRequest;
 use App\Http\Requests\StoreBloodRequestRequest;
 use App\Http\Requests\UpdateBloodRequestRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
+
 
 class BloodRequestController extends Controller
 {
@@ -17,7 +21,7 @@ class BloodRequestController extends Controller
     public function index()
     {
         $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('rejected_by')->latest()->get();
-        return view('backend/blood/not-approved',compact('bloodRequests'));
+        return view('backend/blood/not-approved', compact('bloodRequests'));
     }
 
     public function approve($id)
@@ -33,7 +37,7 @@ class BloodRequestController extends Controller
     {
         $bloodRequest = BloodRequest::findOrFail($id);
         // $bloodRequest['approved_by'] = auth()->user()->id;
-        $bloodRequest->update([            
+        $bloodRequest->update([
             'rejected_by' => Auth::id()
         ]);
         return redirect()->back()->withMessage('Rejected!');
@@ -42,8 +46,8 @@ class BloodRequestController extends Controller
 
     public function allRequests()
     {
-        $bloodRequests = BloodRequest::whereNotNull('approved_by')->whereNotNull('rejected_by')->latest()->get();
-        return view('backend/blood/all',compact('bloodRequests'));
+        $bloodRequests = BloodRequest::whereNotNull('approved_by')->latest()->get();
+        return view('backend/blood/all', compact('bloodRequests'));
     }
 
     /**
@@ -51,9 +55,22 @@ class BloodRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    public function assignIndex(BloodRequest $bloodRequest)
     {
-        
+        //  dd($bloodRequest);
+
+        $blood_group = $bloodRequest['blood_group'];
+
+        $donors = User::where('blood_group', $blood_group)->latest()->get();
+
+        return view('backend.blood.assign-index', compact('donors', 'bloodRequest'));
+    }
+    public function assignDonor(Request $request, BloodRequest $bloodRequest)
+    {
+        // dd($request);
+        // $bloodRequest->donor()->attach( $request->donor_ids);
+         $bloodRequest->donors()->attach($request->donor_ids);
     }
 
     /**
@@ -75,7 +92,7 @@ class BloodRequestController extends Controller
      */
     public function show(BloodRequest $bloodRequest)
     {
-        return view('backend/blood/view',compact('bloodRequest'));
+        return view('backend/blood/view', compact('bloodRequest'));
     }
 
     /**

@@ -45,10 +45,11 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::controller(BloodRequestController::class)->group(function () {
 
-        Route::get('/blood-req-not-approved', 'index')->name('request.notApproved');
-        Route::get('/blood-approve/{id}', 'approve')->name('blood-approve');
-        Route::get('/blood-reject/{id}', 'reject')->name('blood-reject');
-
+        Route::get('/blood-req/not-approved', 'index')->name('request.notApproved');
+        Route::get('/blood-req/approve/{id}', 'approve')->name('blood-approve');
+        Route::get('/blood-req/reject/{id}', 'reject')->name('blood-reject');
+        Route::get('/blood-req/assign/{bloodRequest}','assignIndex')->name('request-assign');
+        Route::post('/blood-req/assign-donor/{bloodRequest}','assignDonor')->name('donor-assign');
         Route::get('/blood-req-all', 'allRequests')->name('blood-request-all');
         Route::get('/blood-req', 'create')->name('blood-req');
         Route::post('/blood-req', 'store')->name('blood-store');

@@ -23,9 +23,21 @@ return new class extends Migration
 
         DB::table('roles')->insert(
             array(
-                'name' => 'Super Admin',
-                'name' => 'Admin',
-                'name' => 'Donor',
+                'name' => 'Super Admin'
+         
+            )
+        );
+        DB::table('roles')->insert(
+            array(
+              
+                'name' => 'Admin'
+                
+            )
+        );
+        DB::table('roles')->insert(
+            array(
+               
+                'name' => 'Donor'
             )
         );
     }
@@ -35,8 +47,8 @@ return new class extends Migration
      *
      * @return void
      */
-    // public function down()
-    // {
-    //     Schema::dropIfExists('roles');
-    // }
+    public function down()
+    {
+        Schema::dropIfExists('roles');
+    }
 };
