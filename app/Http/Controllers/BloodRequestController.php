@@ -6,10 +6,11 @@ use App\Models\BloodRequest;
 use App\Http\Requests\StoreBloodRequestRequest;
 use App\Http\Requests\UpdateBloodRequestRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Date;
 
 class BloodRequestController extends Controller
 {
@@ -19,12 +20,6 @@ class BloodRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
-    {        $ongoing = Auth::user()->bloodRequests()->wherePivot('status',1)->first()->get();
-
-        $usersBloodRequests = Auth::user()->bloodRequests()->wherePivotNull('status')->count();
-        return view('backend/dashboard',compact('usersBloodRequests','ongoing'));
-    }
     public function pending()
     {
         $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('rejected_by')->latest()->get();
@@ -66,12 +61,22 @@ class BloodRequestController extends Controller
 
     public function assignIndex(BloodRequest $bloodRequest)
     {
-        //  dd($bloodRequest);
+        $donationAvail = Carbon::parse(Carbon::now()->subMonths(3));
 
         $blood_group = $bloodRequest['blood_group'];
+        // dd($blood_group);
 
-        $donors = User::where('blood_group', $blood_group)->latest()->get();
-
+        $donors = User::where([
+                            ['blood_group', $blood_group],
+                            ['last_donated', '<=', $donationAvail]
+                       ])
+                       ->orWhere([
+                            ['blood_group', $blood_group],
+                            ['last_donated', null]
+                       ])
+                       ->latest()
+                       ->get();    
+                       
         return view('backend.blood.assign-index', compact('donors', 'bloodRequest'));
     }
 

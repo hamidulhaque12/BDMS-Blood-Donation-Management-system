@@ -16,8 +16,8 @@
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-primary text-white mb-4">
                         <div class="card-body">
-                            <p>Blood request approval</p>
-                            <Span>30</Span>
+                            <p>Blood request Pending</p>
+                            <Span>{{$bloodRequests ?? "No requests"}}</Span>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="#">View Details</a>
@@ -29,7 +29,7 @@
                     <div class="card bg-warning text-white mb-4">
                         <div class="card-body">
                             <p>Donor Signup Request</p>
-                            <Span>30</Span>
+                            <Span>0</Span>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="#">View Details</a>
@@ -41,7 +41,7 @@
                     <div class="card bg-success text-white mb-4">
                         <div class="card-body">
                             <p>Total Upload request</p>
-                            <Span>30</Span>
+                            <Span>0</Span>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="#">View Details</a>
@@ -58,17 +58,17 @@
                                     <tr>
                                         <td>Total Donors</td>
                                         <td>:</td>
-                                        <td>100</td>
+                                        <td>{{$totalDonors}}</td>
                                     </tr>
                                     <tr>
                                         <td>Available Donors</td>
                                         <td>:</td>
-                                        <td>70</td>
+                                        <td>{{$availableDonors}}</td>
                                     </tr>
                                     <tr>
                                         <td>Blood Seekers</td>
                                         <td>:</td>
-                                        <td>40</td>
+                                        <td>{{$bloodRequests}}</td>
                                     </tr>
 
 
@@ -90,7 +90,7 @@
                 <div class="card text-white mb-4" style="background-color: rgb(157, 105, 28)">
                     <div class="card-body">
                         <p>Blood Request</p>
-                        <span>{{ $usersBloodRequests }}</span>
+                        <span>{{ $usersBloodRequests ?? 'No requests' }}</span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link" href="{{ route('donor-blood-reqs') }}">View
@@ -103,7 +103,7 @@
                 <div class="card text-white mb-4" style="background-color: rgb(155, 80, 95)">
                     <div class="card-body">
                         <p>Pending events</p>
-                        <Span>30</Span>
+                        <Span>0</Span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link" href="#">View Details</a>
@@ -115,7 +115,7 @@
                 <div class="card text-white mb-4" style="background-color:coral">
                     <div class="card-body">
                         <p>Your events</p>
-                        <Span>30</Span>
+                        <Span>0</Span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link" href="#">View Details</a>

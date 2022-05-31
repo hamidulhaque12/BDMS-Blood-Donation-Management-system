@@ -53,11 +53,13 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $donor->name }}</td>
                                     <td>{{ $donor->blood_group }}</td>
-                                    <td>{{ $donor->district }}</td>
+                                    <td>{{ $donor->profile->district }}</td>
                                     <td>{{ $donor->postCode ?? 'N/A' }}</td>
-
-                                    <td>Phone</td>
-                                    <td>12-12-12</td>
+                                    <td>{{$donor->profile->phone ?? '01198819121'}}</td>
+                                    <td>{{
+                                        
+                                        $donor->last_donated ?? "Not Yet"
+                                    }}</td>
                                     <td>{{ $donor->created_at->diffForHumans() }}</td>
 
 

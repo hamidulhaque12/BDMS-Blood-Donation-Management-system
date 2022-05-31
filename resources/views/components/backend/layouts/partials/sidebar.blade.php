@@ -40,12 +40,12 @@
                 <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#">
+                        {{-- <a class="nav-link collapsed" href="#">
                             Blood container
-                        </a>
+                        </a> --}}
 
                         <a class="nav-link collapsed" href="{{route('request.notApproved')}}">
-                            Not approved requests
+                            Pending BL Requests
                         </a>
 
                         <a class="nav-link collapsed" href="{{route('blood-request-all')}}">
@@ -56,7 +56,7 @@
                     </nav>
                 </div>
                 
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1"
+                {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Events
@@ -79,7 +79,7 @@
 
 
                     </nav>
-                </div>
+                </div> --}}
                 @endif
                 <div class="sb-sidenav-menu-heading">Your Activities</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2"
@@ -93,10 +93,6 @@
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
                         <a class="nav-link collapsed" href="{{route('donor-blood-reqs')}}">
                             Requests
-                        </a>
-
-                        <a class="nav-link collapsed" href="#">
-                            Taken requests
                         </a>
 
                         <a class="nav-link collapsed" href="#">

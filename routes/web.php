@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackendController;
 use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
@@ -31,11 +32,11 @@ Route::prefix('/')->group(function () {
         Route::get('/events', 'events')->name('events');
     });
     Route::get('/about-us', function () {
-    return view('about');
-})->name('about');
-Route::get('/contact-us', function () {
-    return view('contact');
-})->name('contact');
+        return view('about');
+    })->name('about');
+    Route::get('/contact-us', function () {
+        return view('contact');
+    })->name('contact');
 
     Route::get('/blood-req', [FrontendController::class, 'bloodRequestCreate'])->name('bloodreq-user');
     Route::post('/blood-req', [FrontendController::class, 'bloodRequestStore'])->name('bloodreq-user-store');
@@ -44,26 +45,32 @@ Route::get('/contact-us', function () {
 
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
-   
-
+    Route::controller(BackendController::class)->group(function () {
+        Route::get('/', 'index')->name('dashboard');
+    });
     Route::get('/donor-req', function () {
         return view('backend/donor-requests');
     })->name('donor-request');
     Route::get('/active-donor', [DonorController::class, 'activeDonors'])->name('active-donor');
 
     Route::controller(DonorController::class)->prefix('/donor/blood')->group(function () {
-      Route::get('/requests','index')->name('donor-blood-reqs');
-      Route::get('/requests/{id}/accept','accept')->name('donor-req-accept');
-
+        Route::get('/requests', 'index')->name('donor-blood-reqs');
+        Route::get('/requests/{id}/accept', 'accept')->name('donor-req-accept');
+        Route::get('/requests/{id}/donated', 'donated')->name('donor-req-donated');
+        Route::get('/requests/{id}/not-donated', 'notDonated')->name('donor-req-notdonated');
     });
 
+
+
+
+
     Route::controller(BloodRequestController::class)->group(function () {
-        Route::get('/','index')->name('dashboard');
+
         Route::get('/blood-req/not-approved', 'pending')->name('request.notApproved');
         Route::get('/blood-req/approve/{id}', 'approve')->name('blood-approve');
         Route::get('/blood-req/reject/{id}', 'reject')->name('blood-reject');
-        Route::get('/blood-req/assign/{bloodRequest}','assignIndex')->name('request-assign');
-        Route::post('/blood-req/assign-donor/{bloodRequest}','assignDonor')->name('donor-assign');
+        Route::get('/blood-req/assign/{bloodRequest}', 'assignIndex')->name('request-assign');
+        Route::post('/blood-req/assign-donor/{bloodRequest}', 'assignDonor')->name('donor-assign');
         Route::get('/blood-req-all', 'allRequests')->name('blood-request-all');
         Route::get('/blood-req', 'create')->name('blood-req');
         Route::post('/blood-req', 'store')->name('blood-store');
@@ -73,7 +80,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::resource('donor', DonorController::class);
 
-   
+
 
     Route::get('/events-trash', [EventController::class, 'trash'])->name('events.trash');
     Route::resource('events', EventController::class);
@@ -87,8 +94,6 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
 
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
+
 
 require __DIR__ . '/auth.php';

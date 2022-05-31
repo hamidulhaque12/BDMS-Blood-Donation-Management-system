@@ -28,6 +28,8 @@ class User extends Authenticatable
         'appoved_by',
         'appoval_status',
         'nid_number',
+        'last_donated',
+        'total_donated',
     ];
     
     /**

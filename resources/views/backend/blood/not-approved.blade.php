@@ -1,7 +1,7 @@
 <x-backend.layouts.master>
 
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Not Approved</h1>
+        <h1 class="mt-4">Pending Blood Requests</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">
                 Dashboard
@@ -60,9 +60,10 @@
                                         class="btn btn-success btn-sm" style="margin-left: 3px"><i
                                             class="fas fa-toggle-off"></i></a>
 
-                                    <a href="{{route('blood-reject',$request->id)}}" title="reject" class="btn btn-danger btn-sm" style="margin-left: 3px"><i
+                                    <a href="{{ route('blood-reject', $request->id) }}" title="reject"
+                                        class="btn btn-danger btn-sm" style="margin-left: 3px"><i
                                             class="fas fa-trash"></i></a>
-
+                                </td>
                             </tr>
                         @endforeach
 

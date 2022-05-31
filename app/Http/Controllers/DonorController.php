@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +18,6 @@ class DonorController extends Controller
      */
     public function index()
     {
-        
         $pendingRequests= Auth::user()->bloodRequests()->wherePivot('status', 1)->orWherePivot('status', 2)->orWherePivotNull('status')->get();
         return view('backend.donor.pending-blood-requests', compact('pendingRequests'));
     }
@@ -34,16 +35,55 @@ class DonorController extends Controller
         );
 
         //others are declined
-        $others = DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->first();
+        $others = DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->get();
+    
+       
         if($others){
-            DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->update(
-                ['status' => 0]
-            );
+            foreach($others as $other)
+            {
+                DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->update(
+                    ['status' => 0]
+                );
+
+            }
+         
         }
 
         return redirect()->back()->withMessage('Blood request accepted!');
 
 
+    }
+    public function donated($id)
+    {
+        $donor_id = Auth::id();
+       
+        //donated
+        DB::table('blood_request_user')->where('user_id', $donor_id)->where('blood_request_id',$id)->update(
+            ['status' => 2]
+        );
+
+        //updating in donor table
+        User::find($donor_id)->update(
+            [
+                'last_donated' => Carbon::now(),
+                'total_donated'=> DB::raw('total_donated + 1'), 
+            ]
+        );
+
+        return redirect()->back()->withMessage('Congrats! You can again donate after 3 months');
+    }
+    public function notDonated($id)
+    {
+        $donor_id = Auth::id();
+
+        //donated
+        DB::table('blood_request_user')->where('user_id', $donor_id)->where('blood_request_id',$id)->update(
+            ['status' => 0]
+        );
+
+        //others are declined
+
+        return redirect()->back()->withMessage('Blood request accepted!');
     }
 
     /**

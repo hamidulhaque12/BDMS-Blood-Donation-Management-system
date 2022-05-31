@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('district');
             $table->string('thana');
             $table->string('postOffice');
+            $table->string('phone');
+            $table->string('phone2')->nullable();
             $table->string('postCode')->nullable();
 
             $table->string('profile_image')->nullable();

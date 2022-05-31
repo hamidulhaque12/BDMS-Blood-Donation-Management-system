@@ -40,21 +40,21 @@
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active" data-bs-interval="10000">
-                <img src="images/carsoul1.jpg" class="d-block w-100" height="600px" alt="...">
+                <img src="{{asset('images/carsoul1.jpg')}}" class="d-block w-100" height="600px" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>First slide label</h5>
                   <p>Some representative placeholder content for the first slide.</p>
                 </div>
               </div>
               <div class="carousel-item" data-bs-interval="2000">
-                <img src="images/carsoul2.jpg" class="d-block w-100"height="600px" alt="...">
+                <img src="{{asset('images/carsoul2.jpg')}}" class="d-block w-100"height="600px" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Some representative placeholder content for the second slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="images/carsoul3.jpg" class="d-block w-100" height="600px" alt="...">
+                <img src="{{asset('images/carsoul3.jpg')}}" class="d-block w-100" height="600px" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
@@ -153,7 +153,7 @@
                 Some quick example text to build on the card title and make up the bulk of the
                 card's content.
               </p>
-              <a href="#" class="btn btn-primary">Request</a>
+              <a href="{{route('bloodreq-user')}}" class="btn btn-primary">Request</a>
             </div>
           </div>
           </section>
