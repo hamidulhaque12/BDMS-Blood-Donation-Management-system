@@ -149,6 +149,12 @@
 
                     <span class="fw-light text-decoration-underline m-2"></span>
                     <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" value="{{ old('phone') }}" name="phone"
+                            required>
+                    </div>
+
+                    <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" value="{{ old('email') }}" name="email"
                             required>

@@ -10,5 +10,16 @@ class Event extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['title', 'description', 'image', 'approved_by', 'uploaded_by', 'deleted_by','event_date', 'organized_by'];
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+        'approved_by',
+        'uploaded_by',
+        'deleted_by',
+        'event_date',
+        'organized_by',
+        'uploaded_by ',
+        'status',
+    ];
 }

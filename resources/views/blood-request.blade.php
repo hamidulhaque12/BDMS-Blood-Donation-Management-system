@@ -8,7 +8,7 @@
             <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center bg-primary"
+                        <h3 class="panel-title text-center bg-info"
                             style="padding:5px;font-size:18px;font-weight:bold"><span class="fa fa-envelope "> </span>
                             Request for blood</h3>
                     </div>

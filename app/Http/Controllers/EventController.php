@@ -20,17 +20,39 @@ class EventController extends Controller
      */
     public function index()
     {
-        $status=null;
-        $events = Event::where('status',$status)->get();
+        
+        $events = Event::all();
         return view('backend/events',compact('events'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function approve($id)
+    {
+        Event::find($id)->update(
+            [
+                'status' => 1,
+                'approved_by'=> Auth::user()->id, 
+            ]
+        );
+        
+        return redirect()->back()->withMessage('Event approved!');
+    }
 
+
+    public function decline($id)
+    {
+        Event::find($id)->update(
+            [
+                'status'=> 2,
+                'declined_by'=>Auth::user()->id,
+            ]
+        );
+        
+        return redirect()->back()->withMessage('Event declined!');
+    }
 
 
 
@@ -63,11 +85,11 @@ class EventController extends Controller
                 $requestData['image'] = $filename;
             }
 
-            // $requestData['created_by']=Auth::user()->id;
+            $requestData['created_by']=Auth::user()->id;
 
             Event::create($requestData);
 
-            return redirect()->route('dashboard.events')->with('message', 'Event Uploaded Successfully!');
+            return redirect()->back()->with('message', 'Event Uploaded Successfully! Waiting for Approval');
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }

@@ -29,7 +29,7 @@
                     <div class="card bg-warning text-white mb-4">
                         <div class="card-body">
                             <p>Donor Signup Request</p>
-                            <Span>0</Span>
+                            <Span>{{$signupRequests}}</Span>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="#">View Details</a>
@@ -40,8 +40,8 @@
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-success text-white mb-4">
                         <div class="card-body">
-                            <p>Total Upload request</p>
-                            <Span>0</Span>
+                            <p>Event Upload request</p>
+                            <Span>{{$eventRequests}}</Span>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="#">View Details</a>

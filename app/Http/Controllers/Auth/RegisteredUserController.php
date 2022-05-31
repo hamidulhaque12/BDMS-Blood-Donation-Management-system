@@ -83,9 +83,12 @@ class RegisteredUserController extends Controller
         'blood_group'=> $request->blood_group,
         'role_id' => 3,
         'nid_number' => $request->nid_number,
+        'total_donated'=> 0,
 
     ]);
     $user->profile()->create([
+        'phone' => $request->phone,
+        'phone2' =>$request->phone2,
         'father'=> $request->father,
         'mother'=> $request->mother,
         'dob'=> $request->dob,

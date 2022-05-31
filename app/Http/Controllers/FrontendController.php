@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBloodRequestRequest;
 use App\Models\BloodRequest;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Image;
 
@@ -16,7 +17,13 @@ class FrontendController extends Controller
   }
   public function events()
   {
-    return view('events');
+    $events = Event::whereNotNull('status')->latest()->get();
+    return view('events',compact('events'));
+  }
+  public function eventsView($id)
+  {
+    $event = Event::find($id);
+    return view('events-view',compact('event'));
   }
 
   public function bloodRequestCreate()

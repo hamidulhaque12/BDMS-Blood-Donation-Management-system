@@ -56,7 +56,7 @@
                     </nav>
                 </div>
                 
-                {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1"
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Events
@@ -79,7 +79,7 @@
 
 
                     </nav>
-                </div> --}}
+                </div>
                 @endif
                 <div class="sb-sidenav-menu-heading">Your Activities</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2"
@@ -111,7 +111,7 @@
                 <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="">
+                        <a class="nav-link collapsed" href="{{route('events.create')}}">
                             Add a event
                         </a>
 

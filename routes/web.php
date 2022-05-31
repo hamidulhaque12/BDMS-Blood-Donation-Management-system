@@ -6,6 +6,7 @@ use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
 use App\Models\BloodRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::prefix('/')->group(function () {
     Route::controller(FrontendController::class)->group(function () {
         Route::get('/', 'index')->name('welcome');;
         Route::get('/events', 'events')->name('events');
+        Route::get('/events/{id}','eventsView')->name('guest-events.view');
     });
     Route::get('/about-us', function () {
         return view('about');
@@ -81,7 +83,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::resource('donor', DonorController::class);
 
 
-
+    Route::get('/events/approve/{id}',[EventController::class,'approve'])->name('events.approve');
+    Route::get('/events/decline/{id}',[EventController::class,'decline'])->name('events.decline');
     Route::get('/events-trash', [EventController::class, 'trash'])->name('events.trash');
     Route::resource('events', EventController::class);
 });

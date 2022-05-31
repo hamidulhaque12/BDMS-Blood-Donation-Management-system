@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BloodRequest;
+use App\Models\Event;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,11 +16,13 @@ class BackendController extends Controller
     {   
         $donationAvail = Carbon::parse(Carbon::now()->subMonths(3));
 
-       
+        $eventRequests = Event::whereNull('status')->count();
+        $signupRequests = User::whereNull('approval_status')->count();
 
         $availableDonors = User::whereNull('last_donated')->orWhereDate('last_donated', '<=', $donationAvail)
                         ->count();  
         // dd($availableDonors)  ;
+
 
         $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('rejected_by')->count();
         $totalDonors = User::count();
@@ -28,7 +31,8 @@ class BackendController extends Controller
         $ongoing = Auth::user()->bloodRequests()->wherePivot('status',1)->first();
         $usersBloodRequests = Auth::user()->bloodRequests()->wherePivotNull('status')->count();
         return view('backend/dashboard',compact(
-            
+            'signupRequests',
+        'eventRequests',
         'usersBloodRequests',
         'ongoing',
         'bloodRequests',

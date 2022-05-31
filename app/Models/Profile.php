@@ -22,6 +22,7 @@ class Profile extends Model
         'postCode',
         'profile_image',
         'nid_image',
+        'phone'
     ];
     
 
