@@ -22,10 +22,13 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('role_id')->nullable();
             $table->text('blood_group');
+            $table->unsignedBigInteger('status')->nullable();
             $table->unsignedBigInteger('approval_status')->nullable();
-            $table->unsignedBigInteger('appoved_by')->nullable();            
+            $table->unsignedBigInteger('appoved_by')->nullable();  
+            $table->unsignedBigInteger('rejected_by')->nullable();          
             $table->rememberToken();
             $table->timestamps();
+
         });
     }
 

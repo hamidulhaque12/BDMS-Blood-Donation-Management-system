@@ -63,7 +63,7 @@
                                         <span class="btn btn-sm" style="background-color: cadetblue" style="color: aliceblue">Taken</span>
                                     @elseif($request->status == 3)
                                         <span class="btn btn-sm" style="background-color: rgb(4, 154, 7)" style="color: aliceblue">Donated</span>
-                                        @elseif($request->status == 4)
+                                        @elseif($request->status == 0)
                                         <span class="btn btn-sm" style="background-color:fuchsia"style="color: aliceblue">Cancelled</span>
                                     @endif
 
@@ -72,22 +72,29 @@
                                 <td >
                                     @if ($request->status == Null)
                                    
-                                    <a href="{{route('request-assign', $request->id) }}" title="assign"
-                                        class="btn btn-warning  w-100 " >Assign</a>
+                                        <a href="{{route('request-assign', $request->id) }}" title="assign"
+                                            class="btn btn-warning  w-100 " >Assign</a>
+                                        <div class="d-flex">
+                                            <a href="{{route('blood-view', $request->id) }}" title="view"
+                                                class="btn btn-info btn-sm" style="color: white"><i
+                                                    class="fa-solid fa-eye"></i></a>
+        
+                                            <a href="{{route('blood-approve', $request->id) }}" title="edit"
+                                                class="btn btn-success btn-sm" style="margin-left: 3px"><i
+                                                    class="fas fa-pencil"></i></a>
+        
+                                            <a href="{{route('blood-reject',$request->id)}}" title="delete" class="btn btn-danger btn-sm" style="margin-left: 3px"><i
+                                                    class="fas fa-trash"></i></a>
+                                        </div>
+                                       
                                     @endif
 
-                                    <div class="d-flex">
-                                        <a href="{{route('blood-view', $request->id) }}" title="view"
-                                            class="btn btn-info btn-sm" style="color: white"><i
-                                                class="fa-solid fa-eye"></i></a>
-    
-                                        <a href="{{route('blood-approve', $request->id) }}" title="edit"
-                                            class="btn btn-success btn-sm" style="margin-left: 3px"><i
-                                                class="fas fa-pencil"></i></a>
-    
-                                        <a href="{{route('blood-reject',$request->id)}}" title="delete" class="btn btn-danger btn-sm" style="margin-left: 3px"><i
-                                                class="fas fa-trash"></i></a>
-                                    </div>
+                                    @if ($request->status >= 1)
+                                    <a href="{{route('blood-view', $request->id) }}" title="view"
+                                        class="btn btn-info btn-sm" style="color: white"><i
+                                            class="fa-solid fa-eye"></i></a>
+                                    @endif
+                                    
                                    
 
                             </tr>

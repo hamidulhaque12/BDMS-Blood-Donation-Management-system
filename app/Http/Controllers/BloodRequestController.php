@@ -68,12 +68,17 @@ class BloodRequestController extends Controller
 
         $donors = User::where([
                             ['blood_group', $blood_group],
-                            ['last_donated', '<=', $donationAvail]
+                            ['approved_by', !null],
+                            ['rejected_by', null],
+                            ['last_donated', '<=', $donationAvail],
                        ])
                        ->orWhere([
                             ['blood_group', $blood_group],
+                            ['approved_by', !null],
+                            ['rejected_by', null],
                             ['last_donated', null]
                        ])
+                       ->whereNull('status')
                        ->latest()
                        ->get();    
                        
@@ -89,7 +94,7 @@ class BloodRequestController extends Controller
          $bloodRequest->update([
             'status' => 1
         ]);
-        return redirect()->back()->withMessage('Successfully Assigned!');         
+        return redirect()->route('blood-request-all')->withMessage('Successfully Assigned!');         
     }
 
     /**

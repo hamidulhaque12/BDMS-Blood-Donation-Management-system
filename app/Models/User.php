@@ -26,10 +26,11 @@ class User extends Authenticatable
         'role_id',
         'blood_group',
         'appoved_by',
-        'appoval_status',
+        'approval_status',
         'nid_number',
         'last_donated',
         'total_donated',
+        'rejected_by',
     ];
     
     /**
@@ -78,11 +79,8 @@ class User extends Authenticatable
 
     public function bloodRequests()
     {
-        return $this->belongsToMany(BloodRequest::class)->withPivot(['status'])->withTimestamps();
+        return $this->belongsToMany(BloodRequest::class)
+                    ->withPivot(['status'])
+                    ->withTimestamps();
     }
-
-   
-
-
-
 }

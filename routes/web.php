@@ -50,9 +50,11 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::controller(BackendController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });
-    Route::get('/donor-req', function () {
-        return view('backend/donor-requests');
-    })->name('donor-request');
+    Route::get('/donor-req',[DonorController::class, 'pendingDonorsRequest'])->name('donor-request');
+    Route::get('/donor-req/approve/{id}',[DonorController::class, 'acceptDonors'])->name('donor-request-accept');
+    
+    Route::get('/donor-req/{id}/decline',[DonorController::class, 'rejectDonors'])->name('donor-request-decline');
+
     Route::get('/active-donor', [DonorController::class, 'activeDonors'])->name('active-donor');
 
     Route::controller(DonorController::class)->prefix('/donor/blood')->group(function () {
@@ -67,7 +69,6 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
 
     Route::controller(BloodRequestController::class)->group(function () {
-
         Route::get('/blood-req/not-approved', 'pending')->name('request.notApproved');
         Route::get('/blood-req/approve/{id}', 'approve')->name('blood-approve');
         Route::get('/blood-req/reject/{id}', 'reject')->name('blood-reject');

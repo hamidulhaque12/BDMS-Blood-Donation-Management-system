@@ -1,7 +1,5 @@
-
-   
 <x-backend.layouts.master>
-    
+
     <div class="container-fluid px-4">
         <h1 class="mt-4">Dashboard</h1>
         <ol class="breadcrumb mb-4">
@@ -9,12 +7,20 @@
             <li class="breadcrumb-item active">Donors</li>
             <li class="breadcrumb-item active">Donor-Requests</li>
         </ol>
-      
+
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 NOT APPROVED DONORS
             </div>
+            @if (session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+            @if ($errors->any())
+                {!! implode('', $errors->all('<div class="alert alert-danger text-center" role="alert">:message</div>')) !!}
+            @endif
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
@@ -27,27 +33,34 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-            
-                    <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>O+</td>
-                            <td>Male</td>
-                            <td>1988/04/25</td>
-                            <td>2011/04/25</td>
-                            <td class="d-flex"> 
-                                
-                                <a href="" title="view" data-toggle="tooltip" data-placement="top" class="btn btn-info btn-sm" style="color: white" ><i class="fa-solid fa-eye"></i></a> 
-                                
-                                
-                                
-                                <a href="" title="approve" class="btn btn-success btn-sm" style="margin-left: 3px" ><i class="fas fa-check"></i></a> 
 
-                                <form action="">
-                                    <button title="delete" type="submit" class="btn btn-danger btn-sm" style="margin-left: 3px"><i class="fas fa-ban"></i></button>
-                                </form> </td>
-                        </tr>
-                     
+                    <tbody>
+                        @foreach ($pendingDonorsRequests as $request)
+                            <tr>
+                                <td>{{ $request->name }}</td>
+                                <td>{{ $request->blood_group }}</td>
+                                <td>{{ $request->profile->gender }}</td>
+                                <td>{{ $request->profile->dob }}</td>
+                                <td>{{ $request->created_at }}</td>
+                                <td class="d-flex">
+
+                                    <a href="" title="view" data-toggle="tooltip" data-placement="top"
+                                        class="btn btn-info btn-sm" style="color: white"><i
+                                            class="fa-solid fa-eye"></i></a>
+
+
+
+                                    <a href="{{ route('donor-request-accept', $request->id) }}" title="approve"
+                                        class="btn btn-success btn-sm" style="margin-left: 3px"><i
+                                            class="fas fa-check"></i></a>
+                                        `
+                                   <a href="{{route('donor-request-decline' , $request->id)}}" title="decline" class="btn btn-danger btn-sm">
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                </a>
+                                </td>
+                            </tr>
+                        @endforeach
+
                     </tbody>
                 </table>
             </div>

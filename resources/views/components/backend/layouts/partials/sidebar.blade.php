@@ -43,7 +43,6 @@
                         {{-- <a class="nav-link collapsed" href="#">
                             Blood container
                         </a> --}}
-
                         <a class="nav-link collapsed" href="{{route('request.notApproved')}}">
                             Pending BL Requests
                         </a>
