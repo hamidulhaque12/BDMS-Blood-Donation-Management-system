@@ -26,8 +26,7 @@
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="{{ route('donor-request') }}">Donors Requests</a>
-                        <a class="nav-link" href="{{ route('donor.index') }}">All donors</a>
-                        <a class="nav-link" href="{{ route('active-donor') }}">Active Donors</a>
+                        <a class="nav-link" href="{{ route('donor.list') }}">All donors</a>
                     </nav>
                 </div>
 

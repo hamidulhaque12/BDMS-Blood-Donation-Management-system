@@ -32,9 +32,9 @@
                             <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Organized By</th>
                             <th>Uploaded_by</th>
                             <th>Approved_by</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,20 +46,9 @@
                                 <td>{{ $event->image }}</td>
                                 <td>{{ $event->title }}</td>
                                 <td>{{ Str::limit($event->description,20, '...') }}</td>
-                                <td>{{ $event->uploaded_by }}</td>
-                                <td>{{ $event->approved_by }}</td>
-                                <td>
-                                    <div class="d-flex">
-                                        @if ($event->status == null)
-                                            <a  href="{{route('events.decline',$event->id)}}" class="btn btn-danger btn-sm">Decline</a>
-                                            <a href="{{route('events.approve',$event->id)}}" class="btn btn-sm btn-success">Approve</a>
-                                        @elseif($event->status == 1)
-                                            <mark> Live </mark>
-                                        @endif
-                                        
-                                    </div>
-
-                                </td>
+                                <td>{{ $event->organized_by}}</td>
+                                <td>{{ $event->uploadedBy->name }}</td>
+                                <td>{{ $event->approvedBy->name }}</td>
 
                                 <td class="d-flex">
                                     <a href="{{ route('events.show', $event->id) }}" role="button"

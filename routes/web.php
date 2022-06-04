@@ -52,7 +52,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::controller(BackendController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });
-    Route::get('/events/pending',[EventController::class,'eventsPending'])->name('dashboard.events.pending');
+    Route::get('/events/req/pending',[EventController::class,'eventsPending'])->name('dashboard.events.pending');
+    Route::get('/events/req/accept/{id}',[EventController::class,'approve'])->name('event-request-accept');
+    Route::get('/events/req/decline/{id}',[EventController::class,'decline'])->name('event-request-decline');
     Route::get('/donor-req',[DonorController::class, 'pendingDonorsRequest'])->name('donor-request');
     Route::get('/donor-req/approve/{id}',[DonorController::class, 'acceptDonors'])->name('donor-request-accept');
     
@@ -61,12 +63,12 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::get('/active-donor', [DonorController::class, 'activeDonors'])->name('active-donor');
 
     Route::controller(DonorController::class)->prefix('/donor/blood')->group(function () {
+        Route::get('/all','list')->name('donor.list');
         Route::get('/requests', 'index')->name('donor-blood-reqs');
         Route::get('/requests/{id}/accept', 'accept')->name('donor-req-accept');
         Route::get('/requests/{id}/donated', 'donated')->name('donor-req-donated');
         Route::get('/requests/{id}/not-donated', 'notDonated')->name('donor-req-notdonated');
     });
-
 
 
 
@@ -84,11 +86,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::get('/blood-req/{id}/edit', 'edit')->name('blood-edit');
     });
 
-    Route::resource('donor', DonorController::class);
-
-
-    Route::get('/events/approve/{id}',[EventController::class,'approve'])->name('events.approve');
-    Route::get('/events/decline/{id}',[EventController::class,'decline'])->name('events.decline');
+   
     Route::get('/events-trash', [EventController::class, 'trash'])->name('events.trash');
     Route::resource('events', EventController::class);
 });

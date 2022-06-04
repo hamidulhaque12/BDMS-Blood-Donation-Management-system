@@ -30,8 +30,7 @@ class EventController extends Controller
 
     public function index()
     {
-        
-        $events = Event::whereNotNull('approved_by');
+        $events = Event::whereNotNull('approved_by')->get();
         return view('backend/events',compact('events'));
     }
     /**
@@ -117,7 +116,7 @@ class EventController extends Controller
     {
         $status=null;
         $events = Event::where('status',$status)->where('id',$id)->first();
-        return view('backend/event-show',compact('event'));
+        return view('backend/event-show',compact('events'));
     }
 
     /**

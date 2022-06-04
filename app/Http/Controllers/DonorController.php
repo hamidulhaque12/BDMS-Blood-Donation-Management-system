@@ -19,6 +19,20 @@ class DonorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+
+    public function list(){
+        $donors = User::whereNotNull(
+            [
+                'appoved_by',
+                'approval_status',
+            ]
+        )
+        ->whereNull('rejected_by')
+        ->get();
+
+        return view('backend.donors-list' ,compact('donors'));
+     }
+
     public function pendingDonorsRequest()
     {
         $pendingDonorsRequests = User::whereNull('approval_status')->whereNull('rejected_by')->get();
@@ -208,10 +222,5 @@ class DonorController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function activeDonors()
-    {
-        return view('backend/active-donors');
     }
 }
