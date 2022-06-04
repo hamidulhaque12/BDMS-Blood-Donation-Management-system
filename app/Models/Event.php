@@ -22,4 +22,9 @@ class Event extends Model
         'uploaded_by ',
         'status',
     ];
+
+    public function uploadedBy()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

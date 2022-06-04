@@ -64,6 +64,9 @@
                 <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                        <a class="nav-link collapsed" href="{{route('dashboard.events.pending')}}">
+                            Pending Events
+                        </a>
                         <a class="nav-link collapsed" href="{{route('events.create')}}">
                             Add a event
                         </a>

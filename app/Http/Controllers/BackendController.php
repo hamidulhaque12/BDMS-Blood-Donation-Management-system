@@ -17,7 +17,7 @@ class BackendController extends Controller
         $donationAvail = Carbon::parse(Carbon::now()->subMonths(3));
 
         $eventRequests = Event::whereNull('status')->count();
-        $signupRequests = User::whereNull('approval_status')->count();
+        $signupRequests = User::whereNull('approval_status')->whereNull('rejected_by')->count();
 
         $availableDonors = User::whereNull('last_donated')->orWhereDate('last_donated', '<=', $donationAvail)
                         ->count();  

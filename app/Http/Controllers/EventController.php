@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Routing\ViewController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Image;
@@ -18,10 +19,19 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   public function eventsPending()
+   {
+       $eventsPending = Event::whereNull('approved_by')->get();
+       return view('backend.events.pending',compact('eventsPending'));
+
+   }
+
+
+
     public function index()
     {
         
-        $events = Event::all();
+        $events = Event::whereNotNull('approved_by');
         return view('backend/events',compact('events'));
     }
     /**
@@ -85,7 +95,7 @@ class EventController extends Controller
                 $requestData['image'] = $filename;
             }
 
-            $requestData['created_by']=Auth::user()->id;
+            $requestData['uploaded_by']=Auth::user()->id;
 
             Event::create($requestData);
 

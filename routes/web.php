@@ -6,8 +6,10 @@ use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
 use App\Models\BloodRequest;
+use App\Models\Event;
 use App\Models\Role;
 use App\Models\User;
+use Barryvdh\Debugbar\DataCollector\EventCollector;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +52,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::controller(BackendController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });
+    Route::get('/events/pending',[EventController::class,'eventsPending'])->name('dashboard.events.pending');
     Route::get('/donor-req',[DonorController::class, 'pendingDonorsRequest'])->name('donor-request');
     Route::get('/donor-req/approve/{id}',[DonorController::class, 'acceptDonors'])->name('donor-request-accept');
     
