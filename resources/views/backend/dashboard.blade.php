@@ -41,10 +41,11 @@
                     <div class="card bg-success text-white mb-4">
                         <div class="card-body">
                             <p>Event Upload request</p>
+                            
                             <Span>{{$eventRequests}}</Span>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="{{ route('donor-request') }}">View Details</a>
+                            <a class="small text-white stretched-link" href="{{ route('dashboard.events.pending') }}">View Details</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

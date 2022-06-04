@@ -49,8 +49,6 @@
                                         class="btn btn-info btn-sm" style="color: white"><i
                                             class="fa-solid fa-eye"></i></a>
 
-
-
                                     <a href="{{ route('event-request-accept', $request->id) }}" title="approve"
                                         class="btn btn-success btn-sm" style="margin-left: 3px"><i
                                             class="fas fa-check"></i></a>

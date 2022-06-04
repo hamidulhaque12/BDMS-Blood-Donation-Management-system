@@ -31,7 +31,7 @@ class BackendController extends Controller
         $ongoing = Auth::user()->bloodRequests()->wherePivot('status',1)->first();
         $usersBloodRequests = Auth::user()->bloodRequests()->wherePivotNull('status')->count();
         return view('backend/dashboard',compact(
-            'signupRequests',
+        'signupRequests',
         'eventRequests',
         'usersBloodRequests',
         'ongoing',

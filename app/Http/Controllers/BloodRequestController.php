@@ -68,13 +68,10 @@ class BloodRequestController extends Controller
 
         $donors = User::where([
                             ['blood_group', $blood_group],
-                            ['approved_by', !null],
-                            ['rejected_by', null],
                             ['last_donated', '<=', $donationAvail],
                        ])
                        ->orWhere([
                             ['blood_group', $blood_group],
-                            ['approved_by', !null],
                             ['rejected_by', null],
                             ['last_donated', null]
                        ])
