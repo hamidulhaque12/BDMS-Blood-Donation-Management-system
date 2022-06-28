@@ -105,7 +105,9 @@ class RegisteredUserController extends Controller
     //     Alert::success('Submitted', 'Your donor signup request is waiting for approval');
     //     return back();
     // }
+    event(new Registered($user));
+    auth()->login($user);
     return redirect()->back()->withMessage('Your signup request is submitted! We will mail you soon');
-      
+    //   return redirect()->route('verification.notice');
     }
 }

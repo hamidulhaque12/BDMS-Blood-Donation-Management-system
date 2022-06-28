@@ -48,7 +48,7 @@ Route::prefix('/')->group(function () {
 
 
 
-Route::prefix('dashboard')->middleware(['auth'])->group(function () {
+Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
     Route::controller(BackendController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });
