@@ -61,7 +61,7 @@
                                     placeholder="Ex: Lab-8,Uttara" required>
                             </div>
                             <div class="form-group">
-                                <x-utilities.form.address />
+                                <x-utilities.form.address2/>
                             </div>
 
                             <div class="form-group">

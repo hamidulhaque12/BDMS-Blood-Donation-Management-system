@@ -52,6 +52,7 @@ Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
     Route::controller(BackendController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });
+    Route::get('/myprofile',[DonorController::class,'profile'])->name('profile');
     Route::get('/events/req/pending',[EventController::class,'eventsPending'])->name('dashboard.events.pending');
     Route::get('/events/req/accept/{id}',[EventController::class,'approve'])->name('event-request-accept');
     Route::get('/events/req/decline/{id}',[EventController::class,'decline'])->name('event-request-decline');

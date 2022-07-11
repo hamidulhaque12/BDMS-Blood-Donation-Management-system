@@ -19,6 +19,21 @@ class DonorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     public function changePassword()
+     {
+        return view();
+     }
+     public function profile()
+     {
+        $user =  Auth::user();
+        return view("backend.donor.profile",compact("user"));
+     }
+     public function profileUpdate(Request $request)
+    {
+        $user=Auth::user()->id;
+
+
+    }
 
     public function list(){
         $donors = User::whereNotNull(
@@ -87,6 +102,7 @@ class DonorController extends Controller
         // status 0 is declined
         // status 1 is accepted
         // status2 is donated
+        // status 3 is deactived
         $donor_id = Auth::id();
         //accepted
         DB::table('blood_request_user')->where('user_id', $donor_id)->where('blood_request_id', $id)->update(
