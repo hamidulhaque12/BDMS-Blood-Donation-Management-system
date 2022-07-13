@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Mail;
 
 class BloodRequestController extends Controller
 {
@@ -31,10 +32,28 @@ class BloodRequestController extends Controller
     {
         $bloodRequest = BloodRequest::findOrFail($id);
         // $bloodRequest['approved_by'] = auth()->user()->id;
-        $bloodRequest->update([
+       $done= $bloodRequest->update([
             'approved_by' => Auth::id()
         ]);
+        // sending mail to seekers;
+        if($done){
+            $data=[
+                'request_no'=> $bloodRequest['request_no'],
+                'patient_name'=>$bloodRequest['patient_name'],
+                'blood_group' => $bloodRequest['blood_group'],
+                'hospital_name'=>$bloodRequest['hospital_name'],
+                'contact_name' => $bloodRequest['contact_name'],
+              ];
+              $user['to'] = $bloodRequest['email'];
+              Mail::send('mail.request-approve',$data,function($messages) use ($user){
+                $messages->to( $user['to']);
+                $messages->subject('Your Request has been Approved');
+              });
+        }
+        
         return redirect()->back()->withMessage('Successfully Approved!');
+        
+
     }
     public function reject($id)
     {
@@ -100,10 +119,7 @@ class BloodRequestController extends Controller
      * @param  \App\Http\Requests\StoreBloodRequestRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBloodRequestRequest $request)
-    {
-        //
-    }
+   
 
     /**
      * Display the specified resource.
