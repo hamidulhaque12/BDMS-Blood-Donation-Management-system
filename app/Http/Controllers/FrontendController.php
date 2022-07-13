@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBloodRequestRequest;
 use App\Models\BloodRequest;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Image;
 
 
@@ -36,7 +38,8 @@ class FrontendController extends Controller
 
   
     $requestData = $request->all();
-    $request_no = "80".time();
+
+    $request_no = date('dmy').time();
 
     //image
     if ($request->hasFile('official_report')) {
@@ -52,7 +55,42 @@ class FrontendController extends Controller
 
     // dd($requestData);
     
-    BloodRequest::create($requestData);
+    $bloodRequest = BloodRequest::create($requestData);
+    
+
+    // sending mail to blood seeker
+    if($bloodRequest){
+      $data=[
+        'request_no'=> $request_no,
+        'patient_name'=>$requestData['patient_name'],
+        'blood_group' => $requestData['blood_group'],
+        'hospital_name'=>$requestData['hospital_name'],
+        'contact_name' => $requestData['contact_name'],
+      ];
+      $user['to'] = $requestData['email'];
+      Mail::send('mail.request-mail',$data,function($messages) use ($user){
+        $messages->to( $user['to']);
+        $messages->subject('Thanks For Using BDMS');
+      });
+
+      //Sending mails to admins
+
+      $admins = User::whereIn('role_id', [1, 2])->get();
+      $total_requests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('rejected_by')->count();
+      foreach ($admins as $admin){
+        $data=[
+          'admin_name' => $admin['name'],
+          'total_requests' => $total_requests,
+        ];
+
+        Mail::send('mail.request-admin',$data,function($messages) use ($admin){
+          $messages->to($admin['email']);
+          $messages->subject('BDMS: New Blood Requests');
+        });
+      };
+      
+    }
+
     
 
     //returning back
