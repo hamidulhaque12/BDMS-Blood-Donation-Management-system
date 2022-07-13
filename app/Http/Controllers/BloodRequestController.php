@@ -51,17 +51,35 @@ class BloodRequestController extends Controller
               });
         }
         
-        return redirect()->back()->withMessage('Successfully Approved!');
+        return redirect()->back()->withMessage('Successfully Approved! To assign donor please visit approved blood requests');
         
 
     }
+
+
     public function reject($id)
     {
         $bloodRequest = BloodRequest::findOrFail($id);
         // $bloodRequest['approved_by'] = auth()->user()->id;
-        $bloodRequest->update([
+       $done=$bloodRequest->update([
             'rejected_by' => Auth::id()
         ]);
+
+        //sending mail
+        if($done){
+            $data=[
+                'request_no'=> $bloodRequest['request_no'],
+                'patient_name'=>$bloodRequest['patient_name'],
+                'blood_group' => $bloodRequest['blood_group'],
+                'hospital_name'=>$bloodRequest['hospital_name'],
+                'contact_name' => $bloodRequest['contact_name'],
+              ];
+              $user['to'] = $bloodRequest['email'];
+              Mail::send('mail.request-reject',$data,function($messages) use ($user){
+                $messages->to( $user['to']);
+                $messages->subject('Your Request has been Rejected');
+              });
+        }
         return redirect()->back()->withMessage('Rejected!');
     }
 
