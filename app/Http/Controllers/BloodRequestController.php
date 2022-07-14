@@ -114,7 +114,9 @@ class BloodRequestController extends Controller
                        ])
                        ->whereNull('status')
                        ->latest()
-                       ->get();    
+                       ->get();  
+                       
+        
                        
         return view('backend.blood.assign-index', compact('donors', 'bloodRequest'));
     }
@@ -125,9 +127,37 @@ class BloodRequestController extends Controller
         // dd($request);
         // $bloodRequest->donor()->attach( $request->donor_ids);
          $bloodRequest->donors()->attach($request->donor_ids);
-         $bloodRequest->update([
+        $done= $bloodRequest->update([
             'status' => 1
         ]);
+        
+        //sending mail to donors
+        if($done){
+            $donors= User::where('id',$request->donor_ids)->get();
+            foreach ($donors as $donor){
+                $data = [
+                    'donor_name' => $donor['name'],
+                ];
+                Mail::send('mail.request-donor',$data,function($messages) use ($donor){
+                  $messages->to($donor['email']);
+                  $messages->subject('DONOR:You have new blood requests');
+                });
+            };
+
+    // sending mail to seekers
+            $data = [
+                'request_no' => $bloodRequest['request_no'],
+                'contact_name' => $bloodRequest['contact_name'],
+            ];
+            Mail::send('mail.request-assigned',$data,function($messages) use ($bloodRequest){
+                $messages->to($bloodRequest['email']);
+                $messages->subject('Your request is assigned to donors');
+              });
+
+        } 
+
+
+        
         return redirect()->route('blood-request-all')->withMessage('Successfully Assigned!');         
     }
 
@@ -141,6 +171,7 @@ class BloodRequestController extends Controller
 
     /**
      * Display the specified resource.
+     * 
      *
      * @param  \App\Models\BloodRequest  $bloodRequest
      * @return \Illuminate\Http\Response

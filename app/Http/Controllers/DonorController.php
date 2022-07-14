@@ -9,6 +9,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Stmt\Return_;
 
 class DonorController extends Controller
@@ -19,34 +20,33 @@ class DonorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function changePassword()
-     {
-        return view();
-     }
-     public function profile()
-     {
-        $user =  Auth::user();
-        return view("backend.donor.profile",compact("user"));
-     }
-     public function profileUpdate(Request $request)
+    public function changePassword()
     {
-        $user=Auth::user()->id;
-
-
+        return view();
+    }
+    public function profile()
+    {
+        $user =  Auth::user();
+        return view("backend.donor.profile", compact("user"));
+    }
+    public function profileUpdate(Request $request)
+    {
+        $user = Auth::user()->id;
     }
 
-    public function list(){
+    public function list()
+    {
         $donors = User::whereNotNull(
             [
                 'appoved_by',
                 'approval_status',
             ]
         )
-        ->whereNull('rejected_by')
-        ->get();
+            ->whereNull('rejected_by')
+            ->get();
 
-        return view('backend.donors-list' ,compact('donors'));
-     }
+        return view('backend.donors-list', compact('donors'));
+    }
 
     public function pendingDonorsRequest()
     {
@@ -56,12 +56,23 @@ class DonorController extends Controller
     public function acceptDonors($id)
     {
         try {
-            User::find($id)->update(
+            $done = User::find($id)->update(
                 [
                     'approval_status' => 1,
                     'appoved_by' => Auth::id()
                 ]
             );
+            //sending mail to donors
+            $donor = User::where('id', $id)->get();
+
+            $data = [
+                'donor_name' => $donor['name'],
+            ];
+            Mail::send('mail.donor-accept', $data, function ($messages) use ($donor) {
+                $messages->to($donor['email']);
+                $messages->subject('Donor reqeust has been approved');
+            });
+
             return redirect()->back()->withMessage('Successfully Approved!');
         } catch (QueryException $q) {
             return redirect()->back()->withErrors('Something Went Wrong!');
@@ -75,6 +86,16 @@ class DonorController extends Controller
                     'rejected_by' => Auth::id()
                 ]
             );
+            $donor = User::where('id', $id)->get();
+            //mail to donor
+            $data = [
+                'donor_name' => $donor['name'],
+            ];
+            Mail::send('mail.donor-reject', $data, function ($messages) use ($donor) {
+                $messages->to($donor['email']);
+                $messages->subject('Donor reqeust has been rejected');
+            });
+
             return redirect()->back()->withMessage('Successfully Declined!');
         } catch (QueryException $q) {
             return redirect()->back()->withErrors('Something Went Wrong!');
@@ -108,17 +129,22 @@ class DonorController extends Controller
         DB::table('blood_request_user')->where('user_id', $donor_id)->where('blood_request_id', $id)->update(
             ['status' => 1]
         );
+
+
+        //updating request status
         BloodRequest::find($id)->update([
             'status' => 2
         ]);
+
+        //updating donor status
         DB::table('users')->where('id', $donor_id)->update(
             ['status' => 1]
         );
 
         //others are declined
-        $others = DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->get();
-
-
+        $others = DB::table('blood_request_user')
+            ->where('user_id', $donor_id)
+            ->whereNull('status')->get();
         if ($others) {
             foreach ($others as $other) {
                 DB::table('blood_request_user')->where('user_id', $donor_id)->whereNull('status')->update(
@@ -126,7 +152,32 @@ class DonorController extends Controller
                 );
             }
         }
-
+        //request is removed from others
+        $requests = DB::table('blood_request_id')
+            ->where('user_id', $donor_id)
+            ->whereNull('status')->get();
+            if ($requests) {
+                foreach ($requests as $request) {
+                    DB::table('blood_request_user')->where('blood_request_id', $id)->whereNull('status')->delete();
+                }
+            }
+        
+        $donor = User::Where('id',$donor_id)->get();
+        $request = BloodRequest::where('id',$id)->get();
+        $age = Carbon::parse($donor->profile->dob)->diff(Carbon::now())->y;
+        $data=[
+            'donor_name'=> $donor['name'],
+            'donor_email' => $donor['email'],
+            'donor_age' => $age,
+            'donor_number' => $donor->profile->phone,
+            'donor_gender' => $donor->profile->gender,
+            'request_no' => $request['request_no'],
+            'contact_name' => $request['contact_name'],
+        ];
+        Mail::send('mail.request-donor-accept',$data,function($messages) use ($request){
+            $messages->to($request['email']);
+            $messages->subject('Donor accepted your blood seeking request');
+          });
         return redirect()->back()->withMessage('Blood request accepted!');
     }
     public function donated($id)
@@ -170,9 +221,8 @@ class DonorController extends Controller
                 'status' => null,
             ]
         );
-        //others are declined
 
-        return redirect()->back()->withMessage('Blood request accepted!');
+        return redirect()->back()->withMessage('Marked as not donated');
     }
 
     /**
