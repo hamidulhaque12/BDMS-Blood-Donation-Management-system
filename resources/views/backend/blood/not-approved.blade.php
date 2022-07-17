@@ -56,9 +56,67 @@
                                 <td>{{ $request->created_at }}</td>
                                 <td class="d-flex">
 
-                                    <a href="{{ route('blood-view', $request->id) }}" title="view"
+                                    <a data-bs-toggle="modal" data-bs-target="#view{{ $request->id }}" title="view"
                                         class="btn btn-info btn-sm" style="color: white"><i
                                             class="fa-solid fa-eye"></i></a>
+                                    <div class="modal fade" id="view{{ $request->id }}" tabindex="-1"
+                                        aria-labelledby="rejectLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="rejectLabel">Other informations</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <span><b>Blood Group:</b> {{$request->blood_group}}</span>
+                                                        <span><b>Require date:</b> {{$request->require_date}}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span> <b> Contact Info:</b></span>
+                                                        <table>
+                                                            <tr>
+                                                                <td>Patient Name</td>
+                                                                <td>:</td>
+                                                                <td>{{$request->patient_name}}</td>
+                                                            <td>|</td>
+                                                                <td>Contact Name</td>
+                                                                <td>:</td>
+                                                                <td>{{$request->contact_name}}</td>
+                                                            </tr>
+                                                            <tr >
+                                                                <td>Contact Email</td>
+                                                                <td>:</td>
+                                                                <td colspan="4">{{$request->email}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Phone 1</td>
+                                                                <td>:</td>
+                                                                <td>{{$request->phone}}</td>
+                                                            <td>|</td>
+                                                                <td>Phone 2</td>
+                                                                <td>:</td>
+                                                                <td>{{$request->phone2}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="row">
+                                                        <p> <b> Address:</b> {{$request->hospital_name}},{{$request->thana}},{{$request->postOffice}},{{$request->postCode}},{{$request->district}},{{$request->division}}</p>
+                                                    </div>
+                                                        
+                                                    
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <a href="{{ route('blood-approve', $request->id) }}" title="approve"
                                         class="btn btn-success btn-sm" style="margin-left: 3px"><i
@@ -85,15 +143,17 @@
                                             <div class="modal-body">
                                                 <p>Please mark a reason:</p>
                                                 <div class="form-check">
-                                                    <input onclick="hidetxt()" class="form-check-input" type="radio" name="reject_reason"
-                                                        id="exampleRadios1" value="No certified documents">
+                                                    <input onclick="hidetxt()" class="form-check-input" type="radio"
+                                                        name="reject_reason" id="exampleRadios1"
+                                                        value="No certified documents">
                                                     <label class="form-check-label" for="exampleRadios1">
                                                         No certified documents
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input onclick="hidetxt()" class="form-check-input" type="radio" name="reject_reason"
-                                                        id="exampleRadios2" value="No valid reasons">
+                                                    <input onclick="hidetxt()" class="form-check-input" type="radio"
+                                                        name="reject_reason" id="exampleRadios2"
+                                                        value="No valid reasons">
                                                     <label class="form-check-label" for="exampleRadios2">
                                                         No valid reasons
                                                     </label>
@@ -127,11 +187,12 @@
     </div>
 
     <script>
-        function hidetxt(){
-            document.getElementById("txtarea").style.display= "none";
+        function hidetxt() {
+            document.getElementById("txtarea").style.display = "none";
         }
+
         function showtxt() {
-            document.getElementById("txtarea").style.display= "block";
+            document.getElementById("txtarea").style.display = "block";
         }
     </script>
 
