@@ -37,6 +37,7 @@ return new class extends Migration
             $table->text('additional')->nullable();
             $table->text('reason');
             $table->text('official_report');
+            $table->text('reject_reason')->nullable();
             $table->unsignedBigInteger('status')->nullable();
             $table->unsignedBigInteger('donor_id')->nullable();
             $table->date('completed_at')->nullable();

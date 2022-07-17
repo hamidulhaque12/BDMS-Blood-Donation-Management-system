@@ -77,7 +77,7 @@ Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
     Route::controller(BloodRequestController::class)->group(function () {
         Route::get('/blood-req/not-approved', 'pending')->name('request.notApproved');
         Route::get('/blood-req/approve/{id}', 'approve')->name('blood-approve');
-        Route::get('/blood-req/reject/{id}', 'reject')->name('blood-reject');
+        Route::patch('/blood-req/reject/{id}', 'reject')->name('blood-reject');
         Route::get('/blood-req/assign/{bloodRequest}', 'assignIndex')->name('request-assign');
         Route::post('/blood-req/assign-donor/{bloodRequest}', 'assignDonor')->name('donor-assign');
         Route::get('/blood-req-all', 'allRequests')->name('blood-request-all');

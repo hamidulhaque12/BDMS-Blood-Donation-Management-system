@@ -33,7 +33,8 @@ class BloodRequest extends Model
         'approved_by',
         'require_date',
         'official_report',
-        'rejected_by'
+        'rejected_by',
+        'reject_reason'
     ];
    
     public function approvedBy()

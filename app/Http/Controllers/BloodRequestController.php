@@ -57,12 +57,13 @@ class BloodRequestController extends Controller
     }
 
 
-    public function reject($id)
+    public function reject(Request $request)
     {
-        $bloodRequest = BloodRequest::findOrFail($id);
+        $bloodRequest = BloodRequest::findOrFail($request->id);
         // $bloodRequest['approved_by'] = auth()->user()->id;
        $done=$bloodRequest->update([
-            'rejected_by' => Auth::id()
+            'rejected_by' => Auth::id(),
+            'reject_reason' => $request->reject_reason
         ]);
 
         //sending mail

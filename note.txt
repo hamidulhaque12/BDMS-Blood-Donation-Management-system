@@ -3,6 +3,9 @@ null = pending
 1 = taken
 2 = donated
 
+
+
+
 null | 1 | 2   > display list
 
 
