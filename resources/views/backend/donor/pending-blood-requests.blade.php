@@ -69,7 +69,7 @@
                                     @if ($request->pivot->status == null)
                                     <a href="{{ route('donor-req-accept', $request->id) }}" title="take"
                                         class="btn btn-success btn-sm">Accept</a>
-                                @elseif($request->pivot->status == 1)
+                                     @elseif($request->pivot->status == 1)
                                     <a href="{{ route('donor-req-donated', $request->id) }}" title="Donated?"
                                         class="btn btn-success btn-sm">Donated?</a>
                                     <a href="{{ route('donor-req-notdonated', $request->id) }}" title="Donated?"

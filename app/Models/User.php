@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,8 +32,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_donated',
         'total_donated',
         'rejected_by',
+        'reject_reason'
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -52,12 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-   
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
-    
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
@@ -80,7 +82,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function bloodRequests()
     {
         return $this->belongsToMany(BloodRequest::class)
-                    ->withPivot(['status'])
-                    ->withTimestamps();
+            ->withPivot(['status'])
+            ->withTimestamps();
+    }
+
+    //calculating age::
+
+    public function age($dob)
+    {
+       $diff = Carbon::parse($dob)->diff(Carbon::now())->y;
+       return $age = $diff." years";
     }
 }

@@ -59,7 +59,7 @@ Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
     Route::get('/donor-req',[DonorController::class, 'pendingDonorsRequest'])->name('donor-request');
     Route::get('/donor-req/approve/{id}',[DonorController::class, 'acceptDonors'])->name('donor-request-accept');
     
-    Route::get('/donor-req/{id}/decline',[DonorController::class, 'rejectDonors'])->name('donor-request-decline');
+    Route::patch('/donor-req/{id}/decline',[DonorController::class, 'rejectDonors'])->name('donor-request-decline');
 
     Route::get('/active-donor', [DonorController::class, 'activeDonors'])->name('active-donor');
 

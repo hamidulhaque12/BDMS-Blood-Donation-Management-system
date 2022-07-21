@@ -122,7 +122,34 @@
 
                     </nav>
                 </div>
-                
+                <a class="nav-link collapsed" href="" data-bs-toggle="collapse" data-bs-target="#collapsePages5"
+                aria-expanded="false" aria-controls="collapsePages">
+                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                Reports
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapsePages5" aria-labelledby="headingTwo"
+                data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                    @if (Auth::user()->isAdmin()||Auth::user()->isSuperAdmin()) 
+                    <a class="nav-link collapsed" href="{{route('events.create')}}">
+                       Last Month Donation History
+                    </a>
+
+                    <a class="nav-link collapsed" href="#">
+                        Last Month Blood Request History
+                    </a>
+                    <a class="nav-link collapsed" href="#">
+                        Total History
+                    </a>
+                    <hr>
+                    @endif
+                    <a class="nav-link collapsed" href="#">
+                        Your Donation history
+                    </a>
+
+                </nav>
+            </div>
             </div>
         </div>
         <div class="sb-sidenav-footer">

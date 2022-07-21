@@ -25,7 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('status')->nullable();
             $table->unsignedBigInteger('approval_status')->nullable();
             $table->unsignedBigInteger('appoved_by')->nullable();  
-            $table->unsignedBigInteger('rejected_by')->nullable();          
+            $table->unsignedBigInteger('rejected_by')->nullable();
+            $table->text('reject_reason')->nullable();          
             $table->rememberToken();
             $table->timestamps();
 

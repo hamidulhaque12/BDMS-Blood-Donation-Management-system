@@ -104,16 +104,13 @@
                                                     <div class="row">
                                                         <p> <b> Address:</b> {{$request->hospital_name}},{{$request->thana}},{{$request->postOffice}},{{$request->postCode}},{{$request->district}},{{$request->division}}</p>
                                                     </div>
-                                                        
-                                                    
-
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                   
                                                 </div>
-                                                </form>
+                                         
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +163,7 @@
                                                     </label>
 
                                                 </div>
-                                                <textarea name="reject_reason" id="txtarea" cols="30" rows="2"></textarea>
+                                                <textarea name="reject_reason2" id="txtarea" cols="30" rows="2"></textarea>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
@@ -189,6 +186,7 @@
     <script>
         function hidetxt() {
             document.getElementById("txtarea").style.display = "none";
+            document.getElementById("txtarea").value='';
         }
 
         function showtxt() {

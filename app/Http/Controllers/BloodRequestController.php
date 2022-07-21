@@ -26,62 +26,67 @@ class BloodRequestController extends Controller
         $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('rejected_by')->latest()->get();
         return view('backend/blood/not-approved', compact('bloodRequests'));
     }
-  
+
 
     public function approve($id)
     {
         $bloodRequest = BloodRequest::findOrFail($id);
         // $bloodRequest['approved_by'] = auth()->user()->id;
-       $done= $bloodRequest->update([
+        $done = $bloodRequest->update([
             'approved_by' => Auth::id()
         ]);
         // sending mail to seekers;
-        if($done){
-            $data=[
-                'request_no'=> $bloodRequest['request_no'],
-                'patient_name'=>$bloodRequest['patient_name'],
+        if ($done) {
+            $data = [
+                'request_no' => $bloodRequest['request_no'],
+                'patient_name' => $bloodRequest['patient_name'],
                 'blood_group' => $bloodRequest['blood_group'],
-                'hospital_name'=>$bloodRequest['hospital_name'],
+                'hospital_name' => $bloodRequest['hospital_name'],
                 'contact_name' => $bloodRequest['contact_name'],
-              ];
-              $user['to'] = $bloodRequest['email'];
-              Mail::send('mail.request-approve',$data,function($messages) use ($user){
-                $messages->to( $user['to']);
+            ];
+            $user['to'] = $bloodRequest['email'];
+            Mail::send('mail.request-approve', $data, function ($messages) use ($user) {
+                $messages->to($user['to']);
                 $messages->subject('Your Request has been Approved');
-              });
+            });
         }
-        
-        return redirect()->back()->withMessage('Successfully Approved! To assign donor please visit approved blood requests');
-        
 
+        return redirect()->back()->withMessage('Successfully Approved! To assign donor please visit approved blood requests');
     }
 
 
     public function reject(Request $request)
     {
-        $bloodRequest = BloodRequest::findOrFail($request->id);
-        // $bloodRequest['approved_by'] = auth()->user()->id;
-       $done=$bloodRequest->update([
-            'rejected_by' => Auth::id(),
-            'reject_reason' => $request->reject_reason
-        ]);
+        if ($request->reject_reason || $request->reject_reason2) {
+            if($request->reject_reason2){
+                $request->reject_reason = $request->reject_reason2;
+            }            
+            $bloodRequest = BloodRequest::findOrFail($request->id);
+            // $bloodRequest['approved_by'] = auth()->user()->id;
+            $done = $bloodRequest->update([
+                'rejected_by' => Auth::id(),
+                'reject_reason' => $request->reject_reason
+            ]);
 
-        //sending mail
-        if($done){
-            $data=[
-                'request_no'=> $bloodRequest['request_no'],
-                'patient_name'=>$bloodRequest['patient_name'],
-                'blood_group' => $bloodRequest['blood_group'],
-                'hospital_name'=>$bloodRequest['hospital_name'],
-                'contact_name' => $bloodRequest['contact_name'],
-              ];
-              $user['to'] = $bloodRequest['email'];
-              Mail::send('mail.request-reject',$data,function($messages) use ($user){
-                $messages->to( $user['to']);
-                $messages->subject('Your Request has been Rejected');
-              });
+            //sending mail
+            if ($done) {
+                $data = [
+                    'request_no' => $bloodRequest['request_no'],
+                    'patient_name' => $bloodRequest['patient_name'],
+                    'blood_group' => $bloodRequest['blood_group'],
+                    'hospital_name' => $bloodRequest['hospital_name'],
+                    'contact_name' => $bloodRequest['contact_name'],
+                ];
+                $user['to'] = $bloodRequest['email'];
+                Mail::send('mail.request-reject', $data, function ($messages) use ($user) {
+                    $messages->to($user['to']);
+                    $messages->subject('Your Request has been Rejected');
+                });
+            }
+            return redirect()->back()->withMessage('Rejected!');
+        } else {
+            return redirect()->back()->withErrors('NO REASON SPECIFIED!PLEASE MARK A REASON TO REJECT');
         }
-        return redirect()->back()->withMessage('Rejected!');
     }
 
 
@@ -105,20 +110,20 @@ class BloodRequestController extends Controller
         // dd($blood_group);
 
         $donors = User::where([
-                            ['blood_group', $blood_group],
-                            ['last_donated', '<=', $donationAvail],
-                       ])
-                       ->orWhere([
-                            ['blood_group', $blood_group],
-                            ['rejected_by', null],
-                            ['last_donated', null]
-                       ])
-                       ->whereNull('status')
-                       ->latest()
-                       ->get();  
-                       
-        
-                       
+            ['blood_group', $blood_group],
+            ['last_donated', '<=', $donationAvail],
+        ])
+            ->orWhere([
+                ['blood_group', $blood_group],
+                ['rejected_by', null],
+                ['last_donated', null]
+            ])
+            ->whereNull('status')
+            ->latest()
+            ->get();
+
+
+
         return view('backend.blood.assign-index', compact('donors', 'bloodRequest'));
     }
 
@@ -127,39 +132,38 @@ class BloodRequestController extends Controller
     {
         // dd($request);
         // $bloodRequest->donor()->attach( $request->donor_ids);
-         $bloodRequest->donors()->attach($request->donor_ids);
-        $done= $bloodRequest->update([
+        $bloodRequest->donors()->attach($request->donor_ids);
+        $done = $bloodRequest->update([
             'status' => 1
         ]);
-        
+
         //sending mail to donors
-        if($done){
-            $donors= User::where('id',$request->donor_ids)->get();
-            foreach ($donors as $donor){
+        if ($done) {
+            $donors = User::where('id', $request->donor_ids)->get();
+            foreach ($donors as $donor) {
                 $data = [
                     'donor_name' => $donor['name'],
                 ];
-                Mail::send('mail.request-donor',$data,function($messages) use ($donor){
-                  $messages->to($donor['email']);
-                  $messages->subject('DONOR:You have new blood requests');
+                Mail::send('mail.request-donor', $data, function ($messages) use ($donor) {
+                    $messages->to($donor['email']);
+                    $messages->subject('DONOR:You have new blood requests');
                 });
             };
 
-    // sending mail to seekers
+            // sending mail to seekers
             $data = [
                 'request_no' => $bloodRequest['request_no'],
                 'contact_name' => $bloodRequest['contact_name'],
             ];
-            Mail::send('mail.request-assigned',$data,function($messages) use ($bloodRequest){
+            Mail::send('mail.request-assigned', $data, function ($messages) use ($bloodRequest) {
                 $messages->to($bloodRequest['email']);
                 $messages->subject('Your request is assigned to donors');
-              });
+            });
+        }
 
-        } 
 
 
-        
-        return redirect()->route('blood-request-all')->withMessage('Successfully Assigned!');         
+        return redirect()->route('blood-request-all')->withMessage('Successfully Assigned!');
     }
 
     /**
@@ -168,7 +172,7 @@ class BloodRequestController extends Controller
      * @param  \App\Http\Requests\StoreBloodRequestRequest  $request
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Display the specified resource.

@@ -60,7 +60,9 @@
                                                 <p style="line-height: 24px; margin-bottom:20px;">
                                                     Your donor signup request is <span style="color: red">rejected</span>.Please contact with admin panel.
                                                 </p>
-                                           
+                                                <p style="line-height: 24px; margin-bottom:20px;">
+                                                   <b>Reason:</b> {{$reason}}.
+                                                </p>
                                                 <p style="line-height: 24px">
                                                     Thanks,<br>
                                                     The BDMS team

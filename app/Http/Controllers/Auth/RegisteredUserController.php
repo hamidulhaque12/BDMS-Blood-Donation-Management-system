@@ -107,6 +107,8 @@ class RegisteredUserController extends Controller
     // }
     event(new Registered($user));
     auth()->login($user);
+    Auth::login($user);
+    return redirect('verify-email');
     return redirect()->back()->withMessage('Your signup request is submitted! We will mail you soon');
     //   return redirect()->route('verification.notice');
     }
