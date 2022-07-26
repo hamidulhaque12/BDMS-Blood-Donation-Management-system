@@ -24,7 +24,22 @@ class UpdateBloodRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'patient_name'=>'required|min:5|max:255',
+            'gender' => 'required',
+            'blood_group'=> 'required',
+            'blood_unit'=> 'required|integer' ,
+            'hospital_name'=> 'required|min:5|max:255' ,
+            'division'=> 'required' ,
+            'district'=> 'required' ,
+            'thana'=> 'required' ,
+            'postOffice'=> 'required' ,
+            'postCode'=> 'required' ,
+            'require_date'=> 'required|date' ,
+            'contact_name'=> 'required|min:5|max:255' ,
+            'email'=> 'required|email' ,
+            'phone'=> 'required' ,
+            'reason'=> 'required|min:5|max:255' ,
+            'official_report'=> 'mimes:jpg,png|min:5|max:2048'
         ];
     }
 }

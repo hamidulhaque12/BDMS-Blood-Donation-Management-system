@@ -1,7 +1,10 @@
 <x-backend.layouts.master>
-    @if (Auth::user()->approved_by == null)
+    @if (Auth::user()->appoved_by == null)
     <marquee width="max-width:250px" style="background-color: rgb(239, 20, 20)"> We recived your Request! Please Wait for our confirmation email </marquee>
        
+     @php
+         Auth::logout();
+     @endphp
     @endif
     @if ($ongoing)
         <marquee width="max-width:250px" style="background-color: bisque"> <a href="">!!You have a ongoing donation activity!!</a> </marquee>

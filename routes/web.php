@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\BloodRequestController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
@@ -49,6 +50,8 @@ Route::prefix('/')->group(function () {
 
 
 Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
+    Route::post('/myprofile/donation',[DonorController::class,'donationStore'])->name('donation.update');
+    Route::post('/myprofile/change-password',[ChangePasswordController::class,'store'])->name('change.password');
     Route::controller(BackendController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });

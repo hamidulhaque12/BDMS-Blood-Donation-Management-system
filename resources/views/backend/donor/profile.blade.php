@@ -44,7 +44,14 @@
             border: solid 1px #BA68C8
         }
     </style>
+
+
+
+
     <div class="container rounded bg-white mb-5">
+        @foreach ($errors->all() as $error)
+            <p class="alert alert-danger">{{ $error }}</p>
+        @endforeach
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -77,16 +84,16 @@
                             </div>
                             <div class="form-group col-md-6 mb-2">
                                 <label for="mother">Mothers' Name:<span class="lead fs-6">(optional)</span></label>
-                                <input type="text" value="{{ old('mother', $user->profile->mother) }}"
-                                    name="mother" class="form-control" id="mother">
+                                <input type="text" value="{{ old('mother', $user->profile->mother) }}" name="mother"
+                                    class="form-control" id="mother">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6 mb-2">
                                 <label for="dob">Date of birth:</label>
-                                <input type="date" value="{{ old('dob', $user->profile->dob) }}"
-                                    class="form-control" name="dob" id="dob" required>
+                                <input type="date" value="{{ old('dob', $user->profile->dob) }}" class="form-control"
+                                    name="dob" id="dob" required>
                             </div>
                             <div class="form-group col-md-6 mb-2">
                                 <label for="gender">Gender</label>
@@ -94,19 +101,55 @@
                                     <option selected>Choose...</option>
                                     <option value="Male" {{ $user->profile->gender === 'Male' ? 'Selected' : '' }}>
                                         Male</option>
-                                    <option value="Female"
-                                        {{ $user->profile->gender === 'Female' ? 'Selected' : '' }}>
+                                    <option value="Female" {{ $user->profile->gender === 'Female' ? 'Selected' : '' }}>
                                         Female</option>
-                                    <option value="Other"
-                                        {{ $user->profile->gender === 'Other' ? 'Selected' : '' }}>
+                                    <option value="Other" {{ $user->profile->gender === 'Other' ? 'Selected' : '' }}>
                                         Other</option>
                                 </select>
                             </div>
                         </div>
 
-                        {{-- <span class="fw-light text-decoration-underline m-2">Present Address:</span>
-                        <x-utilities.form.address2 />
-                        <span class="fw-light text-decoration-underline m-2"></span> --}}
+                        <span class="fw-light text-decoration-underline m-2">Present Address:</span>
+                        <div class="row">
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <label for="division">Division:</label>
+                                    <input type="text" name="division" id="division" class="form-control" required
+                                        value="{{ old('division', $user->profile->division) }}">
+                                </div>
+
+                                <div class="form-group col-md-6 col-sm-6 ">
+                                    <label for="district">District:</label>
+
+                                    <input type="text" name="district" class="form-control" id="district"
+                                        value="{{ old('district', $user->profile->district) }}" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <label for="thana">Thana:</label>
+                                    <input type="text" name="thana" class="form-control" id="thana"
+                                        value="{{ old('thana', $user->profile->thana) }}" required>
+                                </div>
+
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <label for="postOffice">Post office:</label>
+
+                                    <input type="text" name="postOffice" class="form-control" id="postOffice"
+                                        value="{{ old('postOffice', $user->profile->postOffice) }}" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <label for="">Post code:</label>
+                                    <input type="text" value="{{ old('postCode', $user->profile->postCode) }}"
+                                        name="postCode" class="form-control" id="postCode" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <span class="fw-light text-decoration-underline m-2"></span>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="phone">Phone</label>
@@ -156,30 +199,33 @@
                     </div>
 
                     <br>
-                    <form action="">
+                    <form action="{{route('donation.update')}}" method="POST">
+                        @csrf
                         <div class="row mb-3">
                             <div class="col-md-4 col-sm-12">
                                 <label class="labels">Total Donated</label>
                                 <input type="text" name="total_donated" class="form-control"
-                                    placeholder="experience" value="{{ old('total_donated', $user->total_donated) }}">
+                                    placeholder="experience"
+                                    value="{{ old('total_donated', $user->total_donated) }}">
                             </div>
                             <div class="col-md-8 col-sm-12">
                                 <label class="labels">Last Donated at</label>
                                 <input type="date" class="form-control" name="last_donated"
                                     placeholder="additional details"
-                                    value="{{ old('last_donated', $user->last_donated) }}">
+                                    value="{{old('last_donated', $user->last_donated) }}">
                             </div>
                         </div>
                         <div class="row">
                             <button class="btn btn-primary profile-button">Update</button>
                         </div>
                     </form>
-                    <form action="">
+                    <form action="{{ route('change.password') }}" method="POST">
+                        @csrf
                         <p class="mt-3"> <b> Change Password</b></p>
                         <div class="row mb-3">
                             <div class="col-md-12 col-sm-12">
                                 <label class="form-label">Old Password</label>
-                                <input type="password" name="old_password" class="form-control">
+                                <input type="password" name="current_password" class="form-control">
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <label class="form-label">New Password</label>
@@ -193,7 +239,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <button class="btn btn-primary profile-button">Change Password</button>
+                            <button type="submit" class="btn btn-primary profile-button">Change Password</button>
                         </div>
                     </form>
 

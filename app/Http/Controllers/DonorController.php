@@ -79,6 +79,11 @@ class DonorController extends Controller
     }
     public function rejectDonors(Request $request)
     {
+        $request->validate(
+            [
+                'reject_reason' => ['required']
+            ]
+        );
         
         if ($request->reason || $request->reason2) {
             try {
@@ -240,9 +245,29 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function donationStore(Request $request)
+    {  
+        try{
+
+        
+        $request->validate([
+            'total_donated' => 'required|numeric',
+            'last_donated'=> 'required|date'
+        ]);
+
+       $user = Auth::id();
+       User::findOrFail($user)->update(
+        [
+            'total_donated'=> $request->total_donated,
+            'last_donated' => $request->last_donated
+        ]
+       );
+       return redirect()->back()->withMessage('Successfully Updated!');
+    }
+    catch (QueryException $q) {
+        return redirect()->back()->withInputs()->withErrors('Something went wrong');
+    }
+
     }
 
     /**

@@ -35,6 +35,24 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'blood_group' =>'required',
+            'nid_number'=>'required|numeric|unique:users',
+    
+            'dob'=> 'required|date|before:18 years ago',
+            'gender'=>'required',
+            'division'=>'required',
+            'district'=>'required',
+            'thana'=>'required',
+            'postOffice'=>'required',
+            'terms'=>'required',
+            'profile_image' => 'required|mimes:jpg,png|min:5|max:2048',
+            
+            'nid_image' => 'required|mimes:jpg,png|min:5|max:512',
+        ]);
         $default_role = 3;
         $requestData = $request->all();
 
@@ -57,24 +75,7 @@ class RegisteredUserController extends Controller
             $requestData['nid_image'] = $nid_image_Name;
         }
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        'blood_group' =>'required',
-        'nid_number'=>'required|numeric|unique:users',
-
-        'dob'=> 'required|date|before:18 years ago',
-        'gender'=>'required',
-        'division'=>'required',
-        'district'=>'required',
-        'thana'=>'required',
-        'postOffice'=>'required',
-        'terms'=>'required',
-        'profile_image' => 'required|mimes:jpg,png|min:5|max:2048',
-        
-        'nid_image' => 'required|mimes:jpg,png|min:5|max:512',
-    ]);
+   
 
     $user = User::create([
         'name' => $request->name,

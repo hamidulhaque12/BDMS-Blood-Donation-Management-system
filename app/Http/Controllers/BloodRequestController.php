@@ -57,6 +57,11 @@ class BloodRequestController extends Controller
 
     public function reject(Request $request)
     {
+        $request->validate(
+            [
+                'reject_reason' => ['required']
+            ]
+        );
         if ($request->reject_reason || $request->reject_reason2) {
             if($request->reject_reason2){
                 $request->reject_reason = $request->reject_reason2;
@@ -104,6 +109,7 @@ class BloodRequestController extends Controller
 
     public function assignIndex(BloodRequest $bloodRequest)
     {
+        
         $donationAvail = Carbon::parse(Carbon::now()->subMonths(3));
 
         $blood_group = $bloodRequest['blood_group'];

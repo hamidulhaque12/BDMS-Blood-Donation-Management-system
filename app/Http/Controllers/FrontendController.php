@@ -35,6 +35,7 @@ class FrontendController extends Controller
 
   public function bloodRequestStore(StoreBloodRequestRequest $request)
   {
+    
 
   
     $requestData = $request->all();
