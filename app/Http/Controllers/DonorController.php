@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\BloodRequest;
+use App\Models\Profile;
 use App\Models\User;
 use Carbon\Carbon;
+use FFI\Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Stmt\Return_;
+use Image;
+use File;
 
 class DonorController extends Controller
 {
@@ -84,13 +88,13 @@ class DonorController extends Controller
                 'reject_reason' => ['required']
             ]
         );
-        
+
         if ($request->reason || $request->reason2) {
             try {
                 if ($request->reason2) {
                     $request->reason = $request->reason2;
                 }
-            
+
                 User::findOrFail($request->id)->update(
                     [
                         'rejected_by' => Auth::id(),
@@ -246,60 +250,59 @@ class DonorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function donationStore(Request $request)
-    {  
-        try{
+    {
+        try {
+
+
+            $request->validate([
+                'total_donated' => 'required|numeric',
+                'last_donated' => 'required|date'
+            ]);
+
+            $user = Auth::id();
+            User::findOrFail($user)->update(
+                [
+                    'total_donated' => $request->total_donated,
+                    'last_donated' => $request->last_donated
+                ]
+            );
+            return redirect()->back()->withMessage('Successfully Updated!');
+        } catch (QueryException $q) {
+            return redirect()->back()->withInputs()->withErrors('Something went wrong');
+        }
+    }
+
+
+    public function makeActive()
+    {
+        if(Auth::user()->status == 3)
+        {
+            $user = Auth::id();
+            User::where('id',$user)->update([
+                'status' => Null
+            ]);
+            return redirect()->back()->withMessage("Donation status is now active");
+        };
+        if(Auth::user()->status == Null)
+        {
+            $user = Auth::id();
+            User::where('id',$user)->update([
+                'status' => 3
+            ]);
+            return redirect()->back()->withMessage("Donation status Deactived");
+        };
 
         
-        $request->validate([
-            'total_donated' => 'required|numeric',
-            'last_donated'=> 'required|date'
+    }
+
+   
+    public function makeDeactive()
+    {
+        $user = Auth::id();
+        User::find($user)->update([
+            'status' => 3
         ]);
-
-       $user = Auth::id();
-       User::findOrFail($user)->update(
-        [
-            'total_donated'=> $request->total_donated,
-            'last_donated' => $request->last_donated
-        ]
-       );
-       return redirect()->back()->withMessage('Successfully Updated!');
-    }
-    catch (QueryException $q) {
-        return redirect()->back()->withInputs()->withErrors('Something went wrong');
-    }
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return redirect()->back()->withMessage("Donation status is deactived");
     }
 
     /**
@@ -309,9 +312,73 @@ class DonorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $oldEmail = Auth::user()->email;
+            $newEmail = $request->email;
+            $emailValidationRule = 'required|string|email|max:255|unique:users';
+            if ($oldEmail == $newEmail) {
+                $emailValidationRule = 'required|string|email|max:255';
+            }
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => $emailValidationRule,
+                'gender' => 'required',
+                'division' => 'required',
+                'district' => 'required',
+                'thana' => 'required',
+                'postOffice' => 'required',
+                'postCode' => 'required|numeric',
+                'phone' => 'required',
+                'profile_image' => 'mimes:jpg,png|min:5|max:2048'
+            ]);
+            $user = Auth::id();
+            if ($request->hasFile('profile_image')) {
+                //finding old image 
+                $oldImageName = Auth::user()->profile->profile_image;
+                //deleting old image 
+                $oldImage = storage_path() . '/app/public/users/profile/' . $oldImageName;
+                if (File::exists($oldImage)) {
+                    unlink($oldImage);
+                }
+                // deleted the old image
+
+                //triming old image name;
+                $trimOldImageName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $oldImageName);
+                $profile_image = $request->file('profile_image');
+                // saving through old image name and new image extention
+                $profile_image_Name = $trimOldImageName . '.' . $profile_image->getClientOriginalExtension();
+                Image::make($request->file('profile_image'))
+                    ->resize(300, 200)
+                    ->save(storage_path() . '/app/public/users/profile/' . $profile_image_Name);
+                Auth::user()->profile->update([
+                    'profile_image' => $profile_image_Name
+                ]);
+            }
+            User::findOrFail(Auth::id())->update(
+                [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                ]
+            );
+            Auth::user()->profile->update(
+                [
+                    'gender' => $request->gender,
+                    'division' => $request->division,
+                    'district' => $request->district,
+                    'thana' => $request->thana,
+                    'postOffice' => $request->postOffice,
+                    'postCode' => $request->postCode,
+                    'phone' => $request->phone
+                    
+                ]
+            );
+
+            return redirect()->back()->withMessage('Successfully Updated');
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->withErrors('Something Went Wrong');
+        }
     }
 
     /**

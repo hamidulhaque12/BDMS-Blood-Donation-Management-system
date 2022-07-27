@@ -32,7 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_donated',
         'total_donated',
         'rejected_by',
-        'reject_reason'
+        'reject_reason',
+        'status'
     ];
 
     /**

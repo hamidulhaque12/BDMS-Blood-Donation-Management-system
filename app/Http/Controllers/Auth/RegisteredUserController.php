@@ -41,13 +41,14 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'blood_group' =>'required',
             'nid_number'=>'required|numeric|unique:users',
-    
+            'phone'=>'required',
             'dob'=> 'required|date|before:18 years ago',
             'gender'=>'required',
             'division'=>'required',
             'district'=>'required',
             'thana'=>'required',
             'postOffice'=>'required',
+            'postCode'=>'required|numeric',
             'terms'=>'required',
             'profile_image' => 'required|mimes:jpg,png|min:5|max:2048',
             
@@ -82,7 +83,7 @@ class RegisteredUserController extends Controller
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'blood_group'=> $request->blood_group,
-        'role_id' => 3,
+        'role_id' => $default_role,
         'nid_number' => $request->nid_number,
         'total_donated'=> 0,
 

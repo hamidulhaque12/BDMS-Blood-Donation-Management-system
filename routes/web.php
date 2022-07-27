@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use Barryvdh\Debugbar\DataCollector\EventCollector;
 use Illuminate\Routing\RouteRegistrar;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +51,8 @@ Route::prefix('/')->group(function () {
 
 
 Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
+    Route::get('/myprofile/donation-status',[DonorController::class,'makeActive'])->name('donationStatusChange');
+    Route::post('/myprofile/update',[DonorController::class,'update'])->name('profile.update');
     Route::post('/myprofile/donation',[DonorController::class,'donationStore'])->name('donation.update');
     Route::post('/myprofile/change-password',[ChangePasswordController::class,'store'])->name('change.password');
     Route::controller(BackendController::class)->group(function () {

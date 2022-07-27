@@ -1,6 +1,20 @@
 <x-backend.layouts.master>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.24/sweetalert2.min.css"
+        integrity="sha512-Yn5Z4XxNnXXE8Y+h/H1fwG/2qax2MxG9GeUOWL6CYDCSp4rTFwUpOZ1PS6JOuZaPBawASndfrlWYx8RGKgILhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.24/dist/sweetalert2.all.min.js"></script>
     @if (Session::has('message'))
-        <p class="alert alert-info">{{ Session::get('message') }}</p>
+        <script>
+            $(document).ready(function() {
+                Swal.fire(
+                    'Success!',
+                    'Successfully Updated!',
+                    'success'
+                )
+            });
+        </script>
+        {{-- <p class="alert alert-info">{{ Session::get('message') }}</p> --}}
     @endif
     <style>
         .form-control:focus {
@@ -45,19 +59,27 @@
         }
     </style>
 
-
-
-
     <div class="container rounded bg-white mb-5">
         @foreach ($errors->all() as $error)
-            <p class="alert alert-danger">{{ $error }}</p>
+            <li class="alert alert-danger">{{ $error }}</li>
         @endforeach
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img id="profileImage" class="rounded-circle mt-5" width="150px"
                         src="{{ asset('storage/users/profile/' . $user->profile->profile_image) }}">
-                    <span class="font-weight-bold">{{ $user->name }}</span>
+                        <div class="d-flex">
+                            <h6>{{ $user->name }} <span class="badge bg-danger">{{ $user->blood_group }}</span></h6>
+                        </div>
+                        
+                   
+                    
+                        <span class="font-weight-bold">Age: {{$user->age($user->profile->dob)}}</span>
+
+                       
+            
+                    <span class="font-weight-bold">Last Donated: {{\Carbon\Carbon::parse($user->last_donated)->diffForHumans()}}</span>
+
                     <span class="text-black-50">{{ $user->email }}</span>
                     <span> </span>
                 </div>
@@ -67,7 +89,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Profile Settings</h4>
                     </div>
-                    <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <span class="fw-light text-decoration-underline m-2">Personal Information:</span>
                         <div class="form-group">
@@ -90,11 +112,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-6 mb-2">
-                                <label for="dob">Date of birth:</label>
-                                <input type="date" value="{{ old('dob', $user->profile->dob) }}" class="form-control"
-                                    name="dob" id="dob" required>
-                            </div>
+
                             <div class="form-group col-md-6 mb-2">
                                 <label for="gender">Gender</label>
                                 <select id="gender" class="form-control" name="gender">
@@ -153,13 +171,13 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone"
+                                <input type="tel" class="form-control" id="phone"
                                     value="{{ old('phone', $user->profile->phone) }}" name="phone" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="phone2">Phone 2 <span class="lead fs-6">(optional)</span></label>
-                                <input type="text" class="form-control" id="phone2"
-                                    value="{{ old('phone', $user->profile->phone2) }}" name="phone2" required>
+                                <input type="tel" class="form-control" id="phone2"
+                                    value="{{ old('phone', $user->profile->phone2) }}" name="phone2">
                             </div>
                         </div>
 
@@ -171,14 +189,14 @@
                         <div class="row">
                             <div class="form-group mb-3">
                                 <label for="formFile" class="form-label">Profile Image</label>
-                                <input class="form-control"
-                                    name="{{ old('profile_image', $user->profile->profile_image) }}" type="file"
+                                <input class="form-control" name="profile_image"
+                                    value="{{ old('profile_image', $user->profile->profile_image) }}" type="file"
                                     id="formFile">
                             </div>
                         </div>
 
                         <div class="row">
-                            <button class="btn btn-primary profile-button" type="button">Save Profile</button>
+                            <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
                         </div>
 
 
@@ -191,28 +209,31 @@
                     <div class="d-flex justify-content-between align-items-center experience">
                         <span>Donation Status: </span>
                         @if (!$user->status == 3)
-                            <a href="" role="button" class="btn btn-sm btn-success">Active</a>
+                            <a href=" {{ route('donationStatusChange') }} "  class="btn btn-sm btn-success">Active</a>
+                        
+                        @elseif($user->status == 3)
+                        <a href=" {{ route('donationStatusChange') }} "  class="btn btn-sm btn-danger">Deactive</a>
                         @else
-                            <a href="" role="button" class="btn btn-sm btn-danger">Deactive</a>
+                        <span class="badge bg-warning">Busy</span>
                         @endif
 
                     </div>
 
                     <br>
-                    <form action="{{route('donation.update')}}" method="POST">
+                    <form action="{{ route('donation.update') }}" method="POST">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-md-4 col-sm-12">
-                                <label class="labels">Total Donated</label>
-                                <input type="text" name="total_donated" class="form-control"
-                                    placeholder="experience"
+                                <label class="labels" for="totalDonated">Total Donated</label>
+                                <input type="number" onkeyup="changeDateValue()" onchange="changeDateValue()" id="totalDonated"
+                                    name="total_donated" class="form-control" placeholder="experience"
                                     value="{{ old('total_donated', $user->total_donated) }}">
                             </div>
                             <div class="col-md-8 col-sm-12">
-                                <label class="labels">Last Donated at</label>
-                                <input type="date" class="form-control" name="last_donated"
+                                <label class="labels" for="lastDonated">Last Donated at</label>
+                                <input type="date" class="form-control" id="lastDonated" name="last_donated"
                                     placeholder="additional details"
-                                    value="{{old('last_donated', $user->last_donated) }}">
+                                    value="{{ old('last_donated', $user->last_donated) }}">
                             </div>
                         </div>
                         <div class="row">
@@ -248,6 +269,10 @@
         </div>
     </div>
 
-
+    <script>
+        function changeDateValue() {
+            document.getElementById('lastDonated').value = '';
+        }
+    </script>
 
 </x-backend.layouts.master>
