@@ -120,7 +120,7 @@
                                             class="fas fa-toggle-off"></i></a>
 
                                     <a data-bs-toggle="modal" data-bs-target="#reject{{ $request->id }}"
-                                        href="" title="reject" class="btn btn-danger btn-sm"
+                                        href="" title="reject" class="btn btn-danger btn-sm" 
                                         style="margin-left: 3px"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>

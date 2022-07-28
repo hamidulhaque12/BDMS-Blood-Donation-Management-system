@@ -23,7 +23,7 @@ class BloodRequestController extends Controller
 
     public function pending()
     {
-        $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('rejected_by')->latest()->get();
+        $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('not_donated_reason')->whereNull('rejected_by')->latest()->get();
         return view('backend/blood/not-approved', compact('bloodRequests'));
     }
 

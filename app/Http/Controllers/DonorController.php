@@ -130,8 +130,9 @@ class DonorController extends Controller
                     ->orWhere('blood_request_user.status', null);
             })
             ->get();
+        $reasons = DB::table('notdonatedreasons')->get();
 
-        return view('backend.donor.pending-blood-requests', compact('pendingRequests'));
+        return view('backend.donor.pending-blood-requests', compact('pendingRequests','reasons'));
     }
 
     public function accept($id)
@@ -227,11 +228,63 @@ class DonorController extends Controller
             return redirect()->back()->withMessage();
         }
     }
-    public function notDonated($id)
+    public function notDonated(Request $request , $id)
     {
-        $donor_id = Auth::id();
+        // validating inputs 
+        $request->validate([
+            'not_donated_reason' =>'required'
+        ]);
+        
+ 
+        //handling requests to mark not donated
 
-        //donated
+        if($request->not_donated_reason == 1){
+            $reason = DB::table('notdonatedreasons')->where('id',$request->not_donated_reason)->get();
+            $donor_id = Auth::id();
+            DB::table('blood_request_user')->where('blood_request_id', $id)->delete();
+            BloodRequest::where('id',$id)->update(
+                [
+                    'not_donated_reason' => $reason->name
+                ]
+            );
+            Auth::user()->update(
+                [
+                    'status' => null,
+                ]
+            );
+        }
+        elseif($request->not_donated_reason == 2){
+           
+            $reason = DB::table('notdonatedreasons')->where('id',$request->not_donated_reason)->get();
+            $donor_id = Auth::id();
+            DB::table('blood_request_user')->where('blood_request_id', $id)->delete();
+            BloodRequest::where('id',$id)->update(
+                [
+                    'not_donated_reason' => $reason->name
+                ]
+            );
+            Auth::user()->update(
+                [
+                    'status' => null,
+                ]
+            );
+        }
+        elseif($request->not_donated_reason == 3){
+            $this->proccess();
+        }
+        elseif($request->not_donated_reason == 4){
+            $this->proccess();
+        }
+        else{
+            return redirect()->back()->withErrors('Something went wrong');
+        }
+        return redirect()->back()->withMessage('Marked as not donated');
+    }
+    private function proccess(){
+        $donor_id = Auth::id();
+        dd($donor_id);
+        //notdonated
+        
         DB::table('blood_request_user')->where('user_id', $donor_id)->where('blood_request_id', $id)->update(
             ['status' => 0]
         );
@@ -240,9 +293,7 @@ class DonorController extends Controller
                 'status' => null,
             ]
         );
-
-        return redirect()->back()->withMessage('Marked as not donated');
-    }
+    } 
 
     /**
      * Show the form for creating a new resource.
