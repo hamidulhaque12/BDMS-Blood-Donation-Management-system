@@ -14,8 +14,8 @@
             </li>
         </ol>
         @if (session('message'))
-        <p class="alert alert-success">{{ session('message') }}</p>
-    @endif
+            <p class="alert alert-success">{{ session('message') }}</p>
+        @endif
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
@@ -41,9 +41,8 @@
                     </thead>
                     <tbody>
                         @foreach ($pendingRequests as $request)
-                       
                             <tr>
-                                
+
                                 <td>{{ $request->patient_name }}</td>
                                 <td>{{ $request->gender }}</td>
                                 <td>{{ $request->hospital_name }}</td>
@@ -55,32 +54,87 @@
                                 <td>{{ $request->phone }}</td>
                                 <td>
                                     @if ($request->pivot->status == null)
-                                        <mark class="bg-info"> Pending</mark>
+                                        <span class="badge bg-info"> Pending</span>
                                     @elseif($request->pivot->status == 1)
-                                    <mark class="bg-warning">Ongoing</mark>
+                                        <span class="badge bg-warning">Ongoing</span>
                                     @elseif($request->pivot->status == 2)
-                                        <mark class="bg-success"> Donated </mark>
+                                        <span class="badge bg-success"> Donated </span>
                                     @endif
                                 </td>
 
                                 <td>
 
-                                    <a href="" title="view" class="btn btn-info btn-sm">View</a>
+                                    <a title="view" data-bs-toggle="modal" data-bs-target="#view{{ $request->id }}"
+                                        title="view" class="btn btn-info btn-sm">View</a>
+                                    <div class="modal fade" id="view{{ $request->id }}" tabindex="-1"
+                                        aria-labelledby="viewLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="viewLabel">Req No:{{$request->request_no}}</h5>
+                                                    
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p> <b>Requested at: {{$request->created_at}} </b> </p>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-md-6 d-flex flex-column">
+                                                            <span><b>Patient Name:</b> {{$request->patient_name}}</span>
+                                                            <span><b>Gender:</b> {{$request->gender}}</span>
+                                                            <span><b>Hospital:</b>{{$request->hospital_name}}</span>
+                                                            <span><b>Contact Name:</b> {{$request->contact_name}}</span>
+                                                          
+                                                        </div>
+                                                        <div class="col-md-6 d-flex flex-column">
+                                                            <span><b>Blood Group:</b> <span class="badge bg-danger">{{$request->blood_group}}</span> </span>
+                                                            <span><b>Blood Unit:</b> {{$request->blood_unit}}</span>
+                                                            <span><b>Require Date:</b> {{$request->require_date}}</span>
+                                                            <span><b>Reason:</b>{{$request->reason}}</span>
+                                                            
+                                                        </div>
+                                                       
+                                                    </div>
+                                            
+                                                
+                                                    <div class="row">
+                                                        <span><b>Contact Number:</b> {{$request->phone}}</span>
+                                                        <span><b>Contact Number2:</b> {{$request->phone2 ?? 'N/A'}}</span>
+                                                        <p class="pb-0 mb-0"> <b> Email:</b> {{$request->email}}</p>
+
+                                                        <p class="pb-0 mb-0"> <b> Address:</b>{{$request->hospital_name}},{{$request->thana}},{{$request->postOffice}},{{$request->postCode}},{{$request->district}},{{$request->division}}</p>
+                                                    </div>
+                                                    @if ($request->pivot->status == 1)
+                                                    <a href="
+                                                     {{-- {{route('bloodrequest.info',$request->id)}} --}}
+                                                    " class="btn btn-sm btn-outline-info">Download Informations</a>
+
+                                                    @endif
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     @if ($request->pivot->status == null)
-                                    <a href="{{ route('donor-req-accept', $request->id) }}" title="take"
-                                        class="btn btn-success btn-sm">Accept</a>
-                                     @elseif($request->pivot->status == 1)
-                                    <a href="{{ route('donor-req-donated', $request->id) }}" title="Donated?"
-                                        class="btn btn-success btn-sm">Donated?</a>
-                                    <a href="{{ route('donor-req-notdonated', $request->id) }}" title="Donated?"
+                                        <a href="{{ route('donor-req-accept', $request->id) }}" title="take"
+                                            class="btn btn-success btn-sm">Accept</a>
+                                    @elseif($request->pivot->status == 1)
+                                        <a href="{{ route('donor-req-donated', $request->id) }}" title="Donated?"
+                                            class="btn btn-success btn-sm">Donated?</a>
+                                        <a href="{{ route('donor-req-notdonated', $request->id) }}" title="Donated?"
                                             class="btn btn-danger btn-sm">Not Donated?</a>
-                               
-                                @endif
+                                    @endif
                                 </td>
 
-                        
+
                             </tr>
-                   
                         @endforeach
 
                     </tbody>

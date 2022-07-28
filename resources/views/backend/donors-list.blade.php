@@ -47,10 +47,13 @@
                                 <td>{{$donor->profile->postCode}}</td>
                                 <td>{{$donor->created_at}}</td>
                                 <td>
-                                    @if ($donor->status > 0)
-                                        <mark> Not deactive </mark>
+                                    @if ($donor->status == Null)
+                                    <span class="badge bg-success" > Active </span>
+                                    @elseif ($donor->staus == 3)
+                                    <span class="badge bg-danger" > Deactive </span>
                                     @else
-                                        <mark class="bg-success text-white" > Active </mark>
+                                    <span class="badge bg-warning" > Busy </span>
+
                                     @endif
                                 </td>
                                 <td>

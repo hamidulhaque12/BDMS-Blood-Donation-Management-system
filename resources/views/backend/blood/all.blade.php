@@ -56,15 +56,15 @@
                                 <td>{{$request->approvedBy->name}}</td>
                                 <td>
                                     @if ($request->status == Null)
-                                        <span class="btn btn-info btn-sm" style="color: aliceblue">Pending</span>
+                                        <span class="badge bg-info" style="color: aliceblue">Pending</span>
                                     @elseif($request->status == 1)
-                                        <span class="btn btn-warning btn-sm" style="color: aliceblue">Assigned</span>
+                                        <span class="badge bg-warning btn-sm" style="color: aliceblue">Assigned</span>
                                     @elseif($request->status == 2)
-                                        <span class="btn btn-sm" style="background-color: cadetblue" style="color: aliceblue">Taken</span>
+                                        <span class="badge" style="background-color: cadetblue" style="color: aliceblue">Taken</span>
                                     @elseif($request->status == 3)
-                                        <span class="btn btn-sm" style="background-color: rgb(4, 154, 7)" style="color: aliceblue">Donated</span>
+                                        <span class="badge" style="background-color: rgb(4, 154, 7)" style="color: aliceblue">Donated</span>
                                         @elseif($request->status == 0)
-                                        <span class="btn btn-sm" style="background-color:fuchsia"style="color: aliceblue">Cancelled</span>
+                                        <span class="badge" style="background-color:fuchsia"style="color: aliceblue">Cancelled</span>
                                     @endif
 
 

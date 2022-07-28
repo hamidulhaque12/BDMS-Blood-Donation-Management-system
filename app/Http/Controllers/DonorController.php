@@ -172,7 +172,7 @@ class DonorController extends Controller
             }
         }
         //request is removed from others
-        $requests = DB::table('blood_request_id')
+        $requests = DB::table('blood_request_user')
             ->where('user_id', $donor_id)
             ->whereNull('status')->get();
         if ($requests) {
@@ -181,8 +181,8 @@ class DonorController extends Controller
             }
         }
 
-        $donor = User::Where('id', $donor_id)->get();
-        $request = BloodRequest::where('id', $id)->get();
+        $donor = User::Where('id', $donor_id)->get()->first();
+        $request = BloodRequest::where('id', $id)->get()->first();
         $age = Carbon::parse($donor->profile->dob)->diff(Carbon::now())->y;
         $data = [
             'donor_name' => $donor->name,
@@ -210,7 +210,7 @@ class DonorController extends Controller
             );
             BloodRequest::find($id)->update(
                 ['status' => 3],
-                ['donor_id' => $donor_id],
+                ['donor_id' => $donor_id], 
                 ['completed_at' => Carbon::now()]
             );
 

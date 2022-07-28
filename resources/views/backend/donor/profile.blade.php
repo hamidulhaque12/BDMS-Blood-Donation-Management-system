@@ -68,17 +68,17 @@
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img id="profileImage" class="rounded-circle mt-5" width="150px"
                         src="{{ asset('storage/users/profile/' . $user->profile->profile_image) }}">
-                        <div class="d-flex">
-                            <h6>{{ $user->name }} <span class="badge bg-danger">{{ $user->blood_group }}</span></h6>
-                        </div>
-                        
-                   
-                    
-                        <span class="font-weight-bold">Age: {{$user->age($user->profile->dob)}}</span>
+                    <div class="d-flex">
+                        <h6>{{ $user->name }} <span class="badge bg-danger">{{ $user->blood_group }}</span></h6>
+                    </div>
 
-                       
-            
-                    <span class="font-weight-bold">Last Donated: {{\Carbon\Carbon::parse($user->last_donated)->diffForHumans()}}</span>
+
+                    <span class="font-weight-bold">Age: {{ $user->age($user->profile->dob) }}</span>
+
+
+
+                    <span class="font-weight-bold">Last Donated:
+                        {{ \Carbon\Carbon::parse($user->last_donated)->diffForHumans() }}</span>
 
                     <span class="text-black-50">{{ $user->email }}</span>
                     <span> </span>
@@ -106,8 +106,8 @@
                             </div>
                             <div class="form-group col-md-6 mb-2">
                                 <label for="mother">Mothers' Name:<span class="lead fs-6">(optional)</span></label>
-                                <input type="text" value="{{ old('mother', $user->profile->mother) }}" name="mother"
-                                    class="form-control" id="mother">
+                                <input type="text" value="{{ old('mother', $user->profile->mother) }}"
+                                    name="mother" class="form-control" id="mother">
                             </div>
                         </div>
 
@@ -209,12 +209,12 @@
                     <div class="d-flex justify-content-between align-items-center experience">
                         <span>Donation Status: </span>
                         @if (!$user->status == 3)
-                            <a href=" {{ route('donationStatusChange') }} "  class="btn btn-sm btn-success">Active</a>
-                        
+                            <a href=" {{ route('donationStatusChange') }} " class="btn btn-sm btn-success">Active</a>
                         @elseif($user->status == 3)
-                        <a href=" {{ route('donationStatusChange') }} "  class="btn btn-sm btn-danger">Deactive</a>
+                            <a href=" {{ route('donationStatusChange') }} "
+                                class="btn btn-sm btn-danger">Deactive</a>
                         @else
-                        <span class="badge bg-warning">Busy</span>
+                            <span class="badge bg-warning">Busy</span>
                         @endif
 
                     </div>
@@ -225,8 +225,9 @@
                         <div class="row mb-3">
                             <div class="col-md-4 col-sm-12">
                                 <label class="labels" for="totalDonated">Total Donated</label>
-                                <input type="number" onkeyup="changeDateValue()" onchange="changeDateValue()" id="totalDonated"
-                                    name="total_donated" class="form-control" placeholder="experience"
+                                <input type="number" onkeyup="changeDateValue()" onchange="changeDateValue()"
+                                    id="totalDonated" name="total_donated" class="form-control"
+                                    placeholder="experience"
                                     value="{{ old('total_donated', $user->total_donated) }}">
                             </div>
                             <div class="col-md-8 col-sm-12">
