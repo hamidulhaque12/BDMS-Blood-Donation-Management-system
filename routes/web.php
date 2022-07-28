@@ -6,6 +6,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\PDFController;
 use App\Models\BloodRequest;
 use App\Models\Event;
 use App\Models\Role;
@@ -51,14 +52,28 @@ Route::prefix('/')->group(function () {
 
 
 Route::prefix('dashboard')->middleware(['auth','verified'])->group(function () {
+    
+    Route::controller(BackendController::class)->group(function () {
+        Route::get('/', 'index')->name('dashboard');
+    });
+    //download pdf
+    
+    Route::controller(PDFController::class)->group(function () {
+        Route::get('/pdfs/seeker-profile/{id}','seekerProfile')->name('seekerprofile');
+        Route::get('/pdfs/last-month-report','monthReport')->name('lastmonthpdf');
+        Route::get('/pdfs/last-year-report','yearReport')->name('lastyearpdf');
+        Route::get('/pdfs/total-report','totalReport')->name('totalpdf');
+        Route::get('/pdfs/my-report','myDonation')->name('mydonationdf');
+
+    });
+    
+    //managing profile settings routes
+    Route::get('/myprofile',[DonorController::class,'profile'])->name('profile');
     Route::get('/myprofile/donation-status',[DonorController::class,'makeActive'])->name('donationStatusChange');
     Route::post('/myprofile/update',[DonorController::class,'update'])->name('profile.update');
     Route::post('/myprofile/donation',[DonorController::class,'donationStore'])->name('donation.update');
     Route::post('/myprofile/change-password',[ChangePasswordController::class,'store'])->name('change.password');
-    Route::controller(BackendController::class)->group(function () {
-        Route::get('/', 'index')->name('dashboard');
-    });
-    Route::get('/myprofile',[DonorController::class,'profile'])->name('profile');
+    
     Route::get('/events/req/pending',[EventController::class,'eventsPending'])->name('dashboard.events.pending');
     Route::get('/events/req/accept/{id}',[EventController::class,'approve'])->name('event-request-accept');
     Route::get('/events/req/decline/{id}',[EventController::class,'decline'])->name('event-request-decline');

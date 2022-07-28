@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dhaka',
 
     /*
     |--------------------------------------------------------------------------
@@ -183,7 +183,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        // UxWeb\SweetAlert\SweetAlertServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+
 
         /*
          * Package Service Providers...
@@ -213,7 +214,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Image' => Intervention\Image\Facades\Image::class,
-       
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         
 
         // 'Alert' => UxWeb\SweetAlert\SweetAlert::class,

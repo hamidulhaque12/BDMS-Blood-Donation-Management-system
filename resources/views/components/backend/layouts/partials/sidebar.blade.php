@@ -12,75 +12,73 @@
                     Website
                 </a>
 
-                @if (Auth::user()->isAdmin()||Auth::user()->isSuperAdmin())
-                    
-               
-                <div class="sb-sidenav-menu-heading">Manage</div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-                    aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Donors
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                    data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="{{ route('donor-request') }}">Donors Requests</a>
-                        <a class="nav-link" href="{{ route('donor.list') }}">All donors</a>
-                    </nav>
-                </div>
+                @if (Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
+                    <div class="sb-sidenav-menu-heading">Manage</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Donors
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="{{ route('donor-request') }}">Donors Requests</a>
+                            <a class="nav-link" href="{{ route('donor.list') }}">All donors</a>
+                        </nav>
+                    </div>
 
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                    aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    Blood
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-                    data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        {{-- <a class="nav-link collapsed" href="#">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Blood
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                            {{-- <a class="nav-link collapsed" href="#">
                             Blood container
                         </a> --}}
-                        <a class="nav-link collapsed" href="{{route('request.notApproved')}}">
-                            Pending BL Requests
-                        </a>
+                            <a class="nav-link collapsed" href="{{ route('request.notApproved') }}">
+                                Pending BL Requests
+                            </a>
 
-                        <a class="nav-link collapsed" href="{{route('blood-request-all')}}">
-                            Approved BL Requests
-                        </a>
-
-
-                    </nav>
-                </div>
-                
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1"
-                    aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    Events
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo"
-                    data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="{{route('dashboard.events.pending')}}">
-                            Pending Events
-                        </a>
-                        <a class="nav-link collapsed" href="{{route('events.create')}}">
-                            Add a event
-                        </a>
-
-                        <a class="nav-link collapsed" href="{{route('events.index')}}">
-                            Event list
-                        </a>
-
-                        <a class="nav-link collapsed" href="{{route('events.trash')}}">
-                            Event trash
-                        </a>
+                            <a class="nav-link collapsed" href="{{ route('blood-request-all') }}">
+                                Approved BL Requests
+                            </a>
 
 
-                    </nav>
-                </div>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Events
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                            <a class="nav-link collapsed" href="{{ route('dashboard.events.pending') }}">
+                                Pending Events
+                            </a>
+                            <a class="nav-link collapsed" href="{{ route('events.create') }}">
+                                Add a event
+                            </a>
+
+                            <a class="nav-link collapsed" href="{{ route('events.index') }}">
+                                Event list
+                            </a>
+
+                            <a class="nav-link collapsed" href="{{ route('events.trash') }}">
+                                Event trash
+                            </a>
+
+
+                        </nav>
+                    </div>
                 @endif
                 <div class="sb-sidenav-menu-heading">Your Activities</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2"
@@ -92,7 +90,7 @@
                 <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="{{route('donor-blood-reqs')}}">
+                        <a class="nav-link collapsed" href="{{ route('donor-blood-reqs') }}">
                             Requests
                         </a>
 
@@ -103,8 +101,8 @@
 
                     </nav>
                 </div>
-                <a class="nav-link collapsed" href="" data-bs-toggle="collapse" data-bs-target="#collapsePages4"
-                    aria-expanded="false" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="" data-bs-toggle="collapse"
+                    data-bs-target="#collapsePages4" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Events
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -112,44 +110,78 @@
                 <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="{{route('events.create')}}">
+                        <a class="nav-link collapsed" href="{{ route('events.create') }}">
                             Add a event
                         </a>
 
                         <a class="nav-link collapsed" href="#">
-                           Your Event list
+                            Your Event list
                         </a>
 
                     </nav>
                 </div>
-                <a class="nav-link collapsed" href="" data-bs-toggle="collapse" data-bs-target="#collapsePages5"
-                aria-expanded="false" aria-controls="collapsePages">
-                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                Reports
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="collapsePages5" aria-labelledby="headingTwo"
-                data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
-                    @if (Auth::user()->isAdmin()||Auth::user()->isSuperAdmin()) 
-                    <a class="nav-link collapsed" href="{{route('events.create')}}">
-                       Last Month Donation History
-                    </a>
 
-                    <a class="nav-link collapsed" href="#">
-                        Last Month Blood Request History
-                    </a>
-                    <a class="nav-link collapsed" href="#">
-                        Total History
-                    </a>
-                    <hr>
-                    @endif
-                    <a class="nav-link collapsed" href="#">
-                        Your Donation history
-                    </a>
 
-                </nav>
-            </div>
+                {{-- download pdf section --}}
+
+                <div class="sb-sidenav-menu-heading">Download PDF</div>
+                @if (Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#downloadpdf1" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Admin
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="downloadpdf1" aria-labelledby="headingTwo"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                            <a class="nav-link collapsed" href="{{route('lastmonthpdf')}}">
+                                Last Month Activities
+                            </a>
+                            <a class="nav-link collapsed" href="{{route('lastyearpdf')}}">
+                                Last Year Activities
+                            </a>
+                            <a class="nav-link collapsed" href="{{route('totalpdf')}}">
+                                Total Activities
+                            </a>
+
+
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="" data-bs-toggle="collapse"
+                    data-bs-target="#downloadpdf2" aria-expanded="false" aria-controls="collapsePages">
+                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                    Your Reports
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="downloadpdf2" aria-labelledby="headingTwo"
+                    data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                        <a class="nav-link collapsed" href="{{route('mydonationdf')}}">
+                            Donation History
+                        </a>
+                    </nav>
+                </div>
+                @else
+                    <a class="nav-link collapsed" href="" data-bs-toggle="collapse"
+                        data-bs-target="#downloadpdf2" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Your Reports
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="downloadpdf2" aria-labelledby="headingTwo"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav" id="sidenavAccordionPages">
+                            <a class="nav-link collapsed" href="">
+                                Donation History
+                            </a>
+                        </nav>
+                    </div>
+                @endif
+
+
+
+
             </div>
         </div>
         <div class="sb-sidenav-footer">
