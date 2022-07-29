@@ -30,6 +30,10 @@
                 margin-bottom: 0px;
                 padding: 0px;
             }
+            .text-center
+            {
+              text-align: center !important;
+            }
             .heading{
                 font-family: Verdana;
                  color: sienna;
@@ -90,6 +94,11 @@
 .bl-requests tr:nth-child(even) {
   background-color: #dddddd;
 }
+.ending{
+  font-family: fantasy;
+  font-size: larger;
+  
+}
         </style>
 
 </head>
@@ -102,7 +111,7 @@
         
     </div>
     <div class="d-flex flex-column address text-center">
-        <span>bdms@info.com</span>
+        <span>bdms@info.com</span><br>
         <span >A/06, Sector-6, Uttara, Dhaka</span>
     </div>
     <hr>
@@ -114,7 +123,7 @@
         
         <div class="container-fluid">
             <div class="heading-box">
-                <h6 class="heading text-center">Report Of {{$lastMonthName}} </h6>
+                <h6 class="heading text-center">TOTAL REPORT OF BDMS </h6>
             </div>
             <div class="date">
                <span>{{\Carbon\Carbon::now()->format('d/m/y g:i A')}}</span>
@@ -136,35 +145,6 @@
              
               </table>
               
-        </div>
-        <br><br><br>
-        <div class="container-fluid">
-            <span>Blood Requests (Group Wise)</span>
-            <table class="bl-requests">
-                <tr class="bl-requests-head">
-                    <th>A+</th>
-                    <th>A-</th>
-                  <th>B+</th>
-                  
-                  <th>B-</th>
-                  <th>O+</th>
-                  <th>O-</th>
-                  <th>AB+</th>
-                  <th>AB-</th>
-                  
-                </tr>
-                <tr>
-                  <td>{{count($aP_blood)}}</td>
-                  <td>{{count($bP_blood )}}</td>
-                  <td>{{count($oP_blood)}}</td>
-                  <td>{{count($abP_blood)}}</td>
-                  <td>{{count($aN_blood)}}</td>
-                  <td>{{count($bN_blood)}}</td>
-                  <td>{{count($oN_blood)}}</td>
-                  <td>{{count($abN_blood)}}</td>
-                </tr>
-                
-              </table>
         </div>
         <br><br><br>
         <div class="container-fluid">
@@ -207,34 +187,7 @@
             <hr>
         </header>
 
-        <div class="container-fluid">
-            <span>Donor Signup (Group Wise)</span>
-            <table class="bl-requests">
-                <tr class="bl-requests-head">
-                    <th>A+</th>
-                    <th>A-</th>
-                  <th>B+</th>
-                  
-                  <th>B-</th>
-                  <th>O+</th>
-                  <th>O-</th>
-                  <th>AB+</th>
-                  <th>AB-</th>
-                  
-                </tr>
-                <tr>
-                    <td>{{count($aP_donor)}}</td>
-                  <td>{{count($bP_donor )}}</td>
-                  <td>{{count($oP_donor)}}</td>
-                  <td>{{count($abP_donor)}}</td>
-                  <td>{{count($aN_donor)}}</td>
-                  <td>{{count($bN_donor)}}</td>
-                  <td>{{count($oN_donor)}}</td>
-                  <td>{{count($abN_donor)}}</td>
-                </tr>
-                
-              </table>
-        </div>
+       
         <br><br><br>
         <div class="container-fluid">
             <span>Donor Signup (all)</span>
@@ -263,6 +216,7 @@
               </table>
         </div>
       <br><br><br>
+      <div class="page-break"></div>
         <div class="container-fluid">
             <span>Events (all)</span>
             <table class="bl-requests">
@@ -271,6 +225,8 @@
                     <th>Title</th>
                   <th>Area</th>
                   <th>Posted at</th>
+                  <th>Approved</th>
+                <th>Rejected</th>
          
                 </tr>
                 @foreach ($eventReports as $event)
@@ -279,12 +235,31 @@
                   <td>{{$event->title}}</td>
                   <td>{{$event->district}}s</td>
                   <td>{{$event->created_at}}</td>
+                  <td>
+                  @if ($event->approved_by)
+                        <span class="badge bg-success" >True</span>        
+                    @endif
+                  </td>
+                  <td>
+                    @if ($event->rejected_by)
+                          <span class="badge bg-success" >True</span>        
+                      @endif
+                    </td>
       
                 </tr> 
                 @endforeach
                
                 
               </table>
+        </div>
+        <br><br><br><br><br><br>
+        <div width="300px" class="text-center">
+          <span class="text-center ending" >Thanks</span>
+          <br>
+          <hr>
+          <span class="text-center">Copyright Reserved <b>@BDMS</b></span>
+          <br>
+          <span class="text-center">info@bdms.com</span>
         </div>
     </div>
     

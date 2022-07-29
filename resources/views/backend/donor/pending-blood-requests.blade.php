@@ -125,9 +125,7 @@
                                                         </p>
                                                     </div>
                                                     @if ($request->pivot->status == 1)
-                                                        <a href="
-                                                     {{-- {{route('bloodrequest.info',$request->id)}} --}}
-                                                    "
+                                                        <a href="{{route('seekerprofile',$request->id)}}"
                                                             class="btn btn-sm btn-outline-info">Download
                                                             Informations</a>
                                                     @endif
