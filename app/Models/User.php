@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role_id',
         'blood_group',
-        'appoved_by',
+        'approved_by',
         'approval_status',
         'nid_number',
         'last_donated',

@@ -61,7 +61,7 @@ class DonorController extends Controller
         $this->protect();
         $donors = User::whereNotNull(
             [
-                'appoved_by',
+                'approved_by',
                 'approval_status',
                 'email_verified_at'
             ]
@@ -83,7 +83,7 @@ class DonorController extends Controller
             $done = User::find($id)->update(
                 [
                     'approval_status' => 1,
-                    'appoved_by' => Auth::id()
+                    'approved_by' => Auth::id()
                 ]
             );
             //sending mail to donors

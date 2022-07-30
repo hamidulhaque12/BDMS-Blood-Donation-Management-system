@@ -170,10 +170,10 @@
                     <span>Last Donated:{{ $user->last_donated }}</span>
                     <br>
                     <span>Status:
-                        @if ($user->appoved_by)
+                        @if ($user->approved_by)
                             <span class="badge bg-success">Verified</span>
                         @endif
-                        @if (!$user->appoved_by)
+                        @if (!$user->approved_by)
                             <span class="badge bg-info">Not yet</span>
                         @endif
                     </span>
