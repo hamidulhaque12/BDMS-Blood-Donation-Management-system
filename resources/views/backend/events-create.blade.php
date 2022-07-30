@@ -69,7 +69,7 @@
                 <div class="form-outline mb-4">
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" id="form6Example2" class="form-control" />
+                            <input type="text" id="form6Example2" class="form-control"  name="area" value="{{old('area')}}" />
                             <label class="form-label" for="form6Example2">Area</label>
 
                         </div>

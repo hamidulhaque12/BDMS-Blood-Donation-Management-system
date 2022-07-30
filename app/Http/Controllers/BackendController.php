@@ -11,9 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class BackendController extends Controller
 {
+    private function donor()
+    {
+        $role_id = 3;
+        if (Auth::user()->role_id == $role_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function protect()
+    {
+        if ($this->donor()) {
+            abort(404);
+        };
+    }
    
     public function index()
     {   
+        
         $donationAvail = Carbon::parse(Carbon::now()->subMonths(3));
 
         $eventRequests = Event::whereNull('status')->count();

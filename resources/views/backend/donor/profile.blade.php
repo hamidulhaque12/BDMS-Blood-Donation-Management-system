@@ -78,7 +78,7 @@
 
 
                     <span class="font-weight-bold">Last Donated:
-                        {{ \Carbon\Carbon::parse($user->last_donated)->diffForHumans() }}</span>
+                        {{ \Carbon\Carbon::parse($user->last_donated)->format('d/m/Y') }}</span>
 
                     <span class="text-black-50">{{ $user->email }}</span>
                     <span> </span>
@@ -234,7 +234,7 @@
                                 <label class="labels" for="lastDonated">Last Donated at</label>
                                 <input type="date" class="form-control" id="lastDonated" name="last_donated"
                                     placeholder="additional details"
-                                    value="{{ old('last_donated', $user->last_donated) }}">
+                                    value="{{ old('last_donated', $user->last_donated ) }}">
                             </div>
                         </div>
                         <div class="row">

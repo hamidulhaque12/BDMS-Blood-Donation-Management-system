@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BloodRequest;
+use App\Models\Event;
 use App\Models\Profile;
 use App\Models\User;
 use Carbon\Carbon;
@@ -23,9 +24,26 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     //protecting datas
+     private function donor()
+     {
+         $role_id = 3;
+         if (Auth::user()->role_id == $role_id) {
+             return true;
+         } else {
+             return false;
+         }
+     }
+     protected function protect()
+     {
+         if ($this->donor()) {
+             abort(404);
+         };
+     }
 
     public function changePassword()
     {
+
         return view();
     }
     public function profile()
@@ -40,6 +58,7 @@ class DonorController extends Controller
 
     public function list()
     {
+        $this->protect();
         $donors = User::whereNotNull(
             [
                 'appoved_by',
@@ -53,11 +72,13 @@ class DonorController extends Controller
 
     public function pendingDonorsRequest()
     {
+        $this->protect();
         $pendingDonorsRequests = User::whereNull('approval_status')->whereNull('rejected_by')->get();
         return view('backend.donor-requests', compact('pendingDonorsRequests'));
     }
     public function acceptDonors($id)
     {
+        $this->protect();
         try {
             $done = User::find($id)->update(
                 [
@@ -83,6 +104,7 @@ class DonorController extends Controller
     }
     public function rejectDonors(Request $request)
     {
+        $this->protect();
         $request->validate(
             [
                 'reject_reason' => ['required']
@@ -220,7 +242,7 @@ class DonorController extends Controller
                 [
                     'last_donated' => Carbon::now(),
                     'total_donated' => DB::raw('total_donated + 1'),
-                    'status' => null
+                    'status' => 1
                 ]
             );
             return redirect()->back()->withMessage('Congrats! You can again donate after 3 months');
@@ -432,6 +454,16 @@ class DonorController extends Controller
         }
     }
 
+    public function donationHistory(){
+        // dd(Auth::id());
+        $histories = BloodRequest::where('donor_id',Auth::id())->get()->all();
+        return view('backend.donor.history',compact('histories'));
+    }
+    public function eventHistory(){
+        // dd(Auth::id());
+        $histories = Event::where('uploaded_by',Auth::id())->get()->all();
+        return view('backend.donor.events',compact('histories'));
+    }
     /**
      * Remove the specified resource from storage.
      *

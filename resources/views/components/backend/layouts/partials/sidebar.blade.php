@@ -94,7 +94,7 @@
                             Requests
                         </a>
 
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('donorhistory')}}">
                             Donation History
                         </a>
 
@@ -114,7 +114,7 @@
                             Add a event
                         </a>
 
-                        <a class="nav-link collapsed" href="#">
+                        <a class="nav-link collapsed" href="{{route('eventhistory')}}">
                             Your Event list
                         </a>
 

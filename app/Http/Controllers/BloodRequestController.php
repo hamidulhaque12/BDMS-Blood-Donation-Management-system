@@ -21,8 +21,27 @@ class BloodRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     
+    private function donor()
+    {
+        $role_id = 3;
+        if (Auth::user()->role_id == $role_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function protect()
+    {
+        if ($this->donor()) {
+            abort(404);
+        };
+    }
+
+
     public function pending()
     {
+        $this->protect();
         $bloodRequests = BloodRequest::whereNull('approved_by')->whereNull('status')->whereNull('not_donated_reason')->whereNull('rejected_by')->latest()->get();
         return view('backend/blood/not-approved', compact('bloodRequests'));
     }
@@ -30,6 +49,7 @@ class BloodRequestController extends Controller
 
     public function approve($id)
     {
+        $this->protect();
         $bloodRequest = BloodRequest::findOrFail($id);
         // $bloodRequest['approved_by'] = auth()->user()->id;
         $done = $bloodRequest->update([
@@ -57,6 +77,7 @@ class BloodRequestController extends Controller
 
     public function reject(Request $request)
     {
+        $this->protect();
         $request->validate(
             [
                 'reject_reason' => ['required']
@@ -97,6 +118,7 @@ class BloodRequestController extends Controller
 
     public function allRequests()
     {
+        $this->protect();
         $bloodRequests = BloodRequest::whereNotNull('approved_by')->latest()->get();
         return view('backend/blood/all', compact('bloodRequests'));
     }
@@ -109,6 +131,7 @@ class BloodRequestController extends Controller
 
     public function assignIndex(BloodRequest $bloodRequest)
     {
+        $this->protect();
         
         $donationAvail = Carbon::parse(Carbon::now()->subMonths(3));
 
@@ -136,6 +159,7 @@ class BloodRequestController extends Controller
 
     public function assignDonor(Request $request, BloodRequest $bloodRequest)
     {
+        $this->protect();
         // dd($request);
         // $bloodRequest->donor()->attach( $request->donor_ids);
         $bloodRequest->donors()->attach($request->donor_ids);
@@ -189,6 +213,8 @@ class BloodRequestController extends Controller
      */
     public function show(BloodRequest $bloodRequest)
     {
+        $this->protect();
+        
         return view('backend/blood/view', compact('bloodRequest'));
     }
 
@@ -200,6 +226,7 @@ class BloodRequestController extends Controller
      */
     public function edit(BloodRequest $bloodRequest)
     {
+        $this->protect();
         //
     }
 
@@ -212,6 +239,7 @@ class BloodRequestController extends Controller
      */
     public function update(UpdateBloodRequestRequest $request, BloodRequest $bloodRequest)
     {
+        $this->protect();
         //
     }
 
@@ -223,6 +251,7 @@ class BloodRequestController extends Controller
      */
     public function destroy(BloodRequest $bloodRequest)
     {
+        $this->protect();
         //
     }
 }

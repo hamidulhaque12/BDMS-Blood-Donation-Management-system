@@ -42,7 +42,8 @@ composer update
 
 Now you have to create a database . Start your local server and browse http://localhost/phpmyadmin
 give your username and password. Now create a database with Utf-8 general_ci for language purpose.
-#### Conect Project With Database
+
+#### Connect Project With Database
 
 Now open your code editor 
 Do this steps 
@@ -106,10 +107,13 @@ All is done! To run the website . Run this code
 php artisan serve
 ```
 Now paste the ip on any browser.
+
 #### Key Generate
 On the browser you will see the project asking to generate key. Click on it and refresh the key.
 
-[![Success](https://freesvg.org/img/success-text.png) ]()
 Boom! You’re all done. Enjoy 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+
+
+[![Success](https://freesvg.org/img/success-text.png) ]()
 

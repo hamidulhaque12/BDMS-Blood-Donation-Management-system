@@ -19,8 +19,27 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+          
+    private function donor()
+    {
+        $role_id = 3;
+        if (Auth::user()->role_id == $role_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function protect()
+    {
+        if ($this->donor()) {
+            abort(404);
+        };
+    }
+
    public function eventsPending()
    {
+    $this->protect();
        $eventsPending = Event::whereNull('approved_by')->get();
        return view('backend.events.pending',compact('eventsPending'));
 
@@ -30,6 +49,7 @@ class EventController extends Controller
 
     public function index()
     {
+        $this->protect();
         $events = Event::whereNotNull('approved_by')->get();
         return view('backend/events',compact('events'));
     }
@@ -40,6 +60,7 @@ class EventController extends Controller
      */
     public function approve($id)
     {
+        $this->protect();
         Event::find($id)->update(
             [
                 'status' => 1,
@@ -53,6 +74,7 @@ class EventController extends Controller
 
     public function decline($id)
     {
+        $this->protect();
         Event::find($id)->update(
             [
                 'status'=> 2,
@@ -86,7 +108,7 @@ class EventController extends Controller
         $requestData = $request->all();
         try {
             if ($request->hasFile('image')) {
-                Artisan::call('storage:link',[] );
+         
                 $file = $request->image;
                 $path = "/app/public/events/";
                 $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -114,6 +136,7 @@ class EventController extends Controller
 
     public function show($id)
     {
+        $this->protect();
         $status=null;
         $events = Event::where('status',$status)->where('id',$id)->first();
         return view('backend/event-show',compact('events'));
@@ -177,6 +200,7 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
+        $this->protect();
         // $this->authorize('events-delete', $event);
         // $event= Event::findOrFail($id);
         $event->update(['deleted_by'=>auth()->id()]);
@@ -189,6 +213,7 @@ class EventController extends Controller
 
 
     public function trash(){
+        $this->protect();
         return view('backend/events-trash');
     }
 }

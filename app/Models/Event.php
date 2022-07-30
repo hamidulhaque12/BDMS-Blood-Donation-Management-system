@@ -27,7 +27,11 @@ class Event extends Model
     {
         return $this->belongsTo(User::class, 'uploaded_by');
     }
-
+    
+    public function declinedBy()
+    {
+        return $this->belongsTo(User::class, 'declined_by');
+    }
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by');

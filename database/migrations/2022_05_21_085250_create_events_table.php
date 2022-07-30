@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('image');
+            $table->text('area');
+            $table->unsignedBigInteger('declined_by')->nullable();
             $table->string('organized_by');
             $table->date('event_date');
             $table->unsignedBigInteger('status')->nullable();

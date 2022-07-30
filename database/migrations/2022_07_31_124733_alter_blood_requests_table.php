@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('', function (Blueprint $table) {
-            // $table->text('not_donated_reason')->nullable(); 
+        Schema::table('events', function (Blueprint $table) {
+            // $table->dropColumn('last_donated');
+            $table->unsignedBigInteger('declined_by')->nullable(); 
         });
     }
 
