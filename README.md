@@ -101,6 +101,19 @@ Now it’s time to migrate database. Run this code.
 ````
 php artisan migrate
 ````
+#### ADD SUPER ADMIN
+You can add super admin in phpmyadmin where you have to provide 
+```
+role_id = 1
+```
+Or you can use our User Seeder. Command
+```
+php artisan db:seed --class=UserSeeder
+```
+Now your login credential for super-admin account is 
+>Email: superadmin@bdms.com
+>Password: superadmin@bdms
+
 #### Run the site
 All is done! To run the website . Run this code
 ```
