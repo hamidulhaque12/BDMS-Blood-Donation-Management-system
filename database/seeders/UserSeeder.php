@@ -20,11 +20,15 @@ class UserSeeder extends Seeder
     {
         $superAdminId = 1;
         $status = 1;
+        $blood_group ='AB+'; 
         DB::table('users')->insert([
             'name' => Str::random(6),
             'email' => 'superadmin@bdms.com',
             'password' => Hash::make('superadmin@bdms'),
+            'blood_group'=> $blood_group,
             'nid_number' => '11111111',
+            'total_donated'=> '1',
+            'last_donated'=>Carbon::now(),
             'email_verified_at' => Carbon::now(),
             'role_id'=>$superAdminId,
             'approval_status' => $status,
