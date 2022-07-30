@@ -22,7 +22,7 @@
  
 
             <!-- Github -->
-            <a title="Github" class="btn btn-outline-light btn-floating m-1" href="http://gitlab.com/hamidulhaque" role="button"><i
+            <a title="Github" class="btn btn-outline-light btn-floating m-1" href="https://gitlab.com/p7644/bdms" role="button"><i
                     class="fab fa-github"></i></a>
         </section>
         <!-- Section: Social media -->
@@ -49,8 +49,8 @@
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2022 Copyright: Uttara University
-        <a class="text-white" href=""></a>
+        © 2022 Copyright: 
+        <a class="text-white" href="https://gitlab.com/hamidulhaque">Hamidulhaque</a>
     </div>
     <!-- Copyright -->
 </footer>
